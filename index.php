@@ -71,7 +71,7 @@ $statement->execute();
                 <p>Surface Temperature (k): <?= $row['object_surface_temperature_k'] ?></p>
                 <p>Atmosphere: <?= $row['object_has_atmosphere'] ?></p>
                 <p>link: <?= $row['object_media'] ?></p>
-                <img src='<?= $row['object_media']  ?>' />
+                <img src='<?= $row['object_media'] ?>' width="500" height="300" style="object-fit: contain;" />
                 <br><br><br><br><br><br>
             </section>
             <?php endwhile ?>
