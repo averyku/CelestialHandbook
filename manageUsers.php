@@ -44,7 +44,7 @@ $user_statement->execute();
         <h1><a href="index.php">The Celestial Handbook</a></h1>
 
         <!-- Login / Out Panel -->
-        <div id="login_box">
+        <div id="login_module">
             <?php require('loginModule.php'); ?>
         </div>
 

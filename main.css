@@ -5,7 +5,14 @@
     Updated: 2023 November 4th
 */
 
-div#login_box
+div#login_module
+{
+    padding: 10px;
+    width:400px;
+    background-color: rgb(220,220,220);
+    border: black solid 1px;
+}
+div#question_module
 {
     padding: 10px;
     width:400px;

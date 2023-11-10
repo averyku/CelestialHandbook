@@ -40,18 +40,6 @@ if ($statement->rowCount() < 1 || 1 > $statement->rowCount())
 // Store the object data
 $object = $statement->fetch();
 
-// Select the object's questions
-$question_query =
-'SELECT u.user_name, q.question_timestamp, q.question_body, q.answer_body, q.answer_timestamp
-FROM ' . QUESTION_TABLE_NAME . ' q 
-	LEFT OUTER JOIN ' . USER_TABLE_NAME . ' u
-	ON q.user_id = u.user_id
-WHERE q.object_id = :id
-ORDER BY q.question_timestamp DESC';
-$question_statement = $db->prepare($question_query);
-$question_statement->bindValue(':id', $_GET['id']);
-$question_statement->execute();
-
 ?>
 
 
@@ -74,7 +62,7 @@ $question_statement->execute();
         <h1><a href="index.php">The Celestial Handbook</a></h1>
 
         <!-- Login / Out Panel -->
-        <div id="login_box">
+        <div id="login_module">
             <?php require('loginModule.php'); ?>
         </div>
 
@@ -114,14 +102,9 @@ $question_statement->execute();
             </section>
 
             <!-- Questions -->
-            <?php while ($question = $question_statement->fetch()): ?>
-                <section class="object_question">
-                        <p><?= empty($question['user_name']) ? '[deleted user]' : $question['user_name'] ?> - <?= $question['question_timestamp'] ?></p>
-                        <h2><?= $question['question_body'] ?></h2>
-                        <h3><?= empty($question['answer_body']) ? "Not Yet Answered" : $question['answer_body'] ?></h3>
-                        <p><?= 'Answered on: ' . $question['answer_timestamp'] ?></p>
-                </section>
-            <?php endwhile ?>
+            <div id="question_module">
+                <?php require('questionModule.php'); ?>
+            </div>
         </main>
     
         <br><br><br>
