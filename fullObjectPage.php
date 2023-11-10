@@ -12,6 +12,8 @@
 session_start();
 require('connect.php');
 define('OBJECT_TABLE_NAME', 'celestial_objects');
+define('QUESTION_TABLE_NAME', 'questions');
+define('USER_TABLE_NAME', 'users');
 
 
 // Redirect the user to the index page
@@ -37,6 +39,18 @@ if ($statement->rowCount() < 1 || 1 > $statement->rowCount())
 
 // Store the object data
 $object = $statement->fetch();
+
+// Select the object's questions
+$question_query =
+'SELECT u.user_name, q.question_timestamp, q.question_body, q.answer_body, q.answer_timestamp
+FROM ' . QUESTION_TABLE_NAME . ' q 
+	LEFT OUTER JOIN ' . USER_TABLE_NAME . ' u
+	ON q.user_id = u.user_id
+WHERE q.object_id = :id
+ORDER BY q.question_timestamp DESC';
+$question_statement = $db->prepare($question_query);
+$question_statement->bindValue(':id', $_GET['id']);
+$question_statement->execute();
 
 ?>
 
@@ -98,8 +112,19 @@ $object = $statement->fetch();
                 <?php endif ?>  
                 <br><br><br><br><br><br>
             </section>
+
+            <!-- Questions -->
+            <?php while ($question = $question_statement->fetch()): ?>
+                <section class="object_question">
+                        <p><?= empty($question['user_name']) ? '[deleted user]' : $question['user_name'] ?> - <?= $question['question_timestamp'] ?></p>
+                        <h2><?= $question['question_body'] ?></h2>
+                        <h3><?= empty($question['answer_body']) ? "Not Yet Answered" : $question['answer_body'] ?></h3>
+                        <p><?= 'Answered on: ' . $question['answer_timestamp'] ?></p>
+                </section>
+            <?php endwhile ?>
         </main>
     
+        <br><br><br>
         <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
     </div>
 </body>
