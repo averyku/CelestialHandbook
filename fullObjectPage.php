@@ -92,8 +92,10 @@ $object = $statement->fetch();
                 <p>Velocity (km/s): <?= $object['object_velocity_kms'] ?></p>
                 <p>Surface Temperature (k): <?= $object['object_surface_temperature_k'] ?></p>
                 <p>Atmosphere: <?= $object['object_has_atmosphere'] ?></p>
-                <p>link: <?= $object['object_media'] ?></p>
-                <img src='<?= $object['object_media'] ?>' width="500" height="300" style="object-fit: contain;" />
+                <?php if(!empty($object['object_media'])): ?>
+                    <p>link: <?= $object['object_media'] ?></p>
+                    <img src='<?= $object['object_media'] ?>' width="500" height="300" style="object-fit: contain;" />
+                <?php endif ?>  
                 <br><br><br><br><br><br>
             </section>
         </main>
