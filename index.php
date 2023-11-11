@@ -5,14 +5,13 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 3rd
-    Updated: 2023 November 6th
+    Updated: 2023 November 11th
 
 ****************/
 
 session_start();
 require('connect.php');
 define('OBJECT_TABLE_NAME', 'celestial_objects');
-// define('DATE_FORMAT', 'F d, Y, h:ia');
 
 
 // Select all objects sorted by name
@@ -48,13 +47,7 @@ $statement->execute();
 
         <!-- Navigation -->
         <nav>
-            <ul>
-                <li class="selectedTab"><a href="index.php">Home</a></li>
-                <li class="selectedTab"><a href="https://www.asc-csa.gc.ca/eng/">CSA</a></li>
-                <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
-                    <li><a href="manageUsers.php">Manage Users</a></li>
-                <?php endif ?>
-            </ul>
+            <?php require('nav.php'); ?>
         </nav>
 
         <br><br><br>

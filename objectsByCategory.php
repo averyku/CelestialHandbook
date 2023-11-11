@@ -4,8 +4,8 @@
     
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
-    Date: 2023 November 3rd
-    Updated: 2023 November 6th
+    Date: 2023 November 11th
+    Updated: 2023 November 11th
 
 ****************/
 
@@ -67,13 +67,7 @@ if ($_GET
 
         <!-- Navigation -->
         <nav>
-            <ul>
-                <li class="selectedTab"><a href="index.php">Home</a></li>
-                <li class="selectedTab"><a href="https://www.asc-csa.gc.ca/eng/">CSA</a></li>
-                <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
-                    <li><a href="manageUsers.php">Manage Users</a></li>
-                <?php endif ?>
-            </ul>
+            <?php require('nav.php'); ?>
         </nav>
 
         <br><br><br>
