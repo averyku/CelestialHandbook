@@ -1,6 +1,16 @@
 <?php
 
-// Submiting a new question
+/*******w******** 
+    
+    Name: Avery Kuboth
+    Description: WEBD-2013 Project - Celestial Handbook
+    Date: 2023 November 10th
+    Updated: 2023 November 11th
+
+****************/
+
+
+// Question Submit New
 if( $_POST 
     && !empty($_POST['question']) 
     && $_SESSION['login_status'] === 'loggedin' 
@@ -17,7 +27,8 @@ if( $_POST
     $question_statement->execute();
 }
 
-// Deleting a question
+
+// Question Delete
 if( $_POST 
     && !empty($_POST['delete']) 
     && !empty($_POST['question_id']) 
@@ -34,7 +45,28 @@ if( $_POST
     $question_statement->execute();
 }
 
-// Selecting the questions for this object's page
+
+// Answer Submission
+if($_POST 
+    && !empty($_POST['submit_answer']) 
+    && !empty($_POST['question_id']) 
+    && filter_input(INPUT_POST, 'question_id', FILTER_VALIDATE_INT)
+    && filter_input(INPUT_POST, 'answer_body', FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+    && $_SESSION['login_status'] === 'loggedin'
+    && $_SESSION['login_account']['user_is_admin'])
+{
+    $answer_body = filter_input(INPUT_POST, 'answer_body', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $question_query = 'UPDATE ' . QUESTION_TABLE_NAME . ' SET answer_body=:answer_body, answer_timestamp=NOW() WHERE question_id=:question_id LIMIT 1';
+    $question_statement = $db->prepare($question_query);
+    $question_statement->bindValue(':answer_body', $_POST['answer_body']);
+    $question_statement->bindValue(':question_id', $_POST['question_id']);
+    $question_statement->execute();
+
+    $answering_question_id = "";
+}
+
+
+// Retreive All Questions
 if( $_GET 
     && !empty($_GET['id']) 
     && filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT))
@@ -50,37 +82,68 @@ if( $_GET
     $question_statement->bindValue(':id', $_GET['id']);
     $question_statement->execute();
 }
-
 ?>
 
 
+<!-- Edit/Submit an Answer -->
+<?php if(!empty($_POST['edit_answer']) 
+        && !empty($_POST['question_id']) 
+        && filter_input(INPUT_POST,'question_id',FILTER_VALIDATE_INT) 
+        && $_SESSION['login_status'] === 'loggedin' 
+        && $_SESSION['login_account']['user_is_admin']): ?>
+    <?php while ($question = $question_statement->fetch()): ?>
+        <?php if ($question['question_id'] == $_POST['question_id']): ?>
+            <section class="answering_question">
+                <p><?= empty($question['user_name']) ? '[deleted user]' : $question['user_name'] ?> - <?= $question['question_timestamp'] ?></p>
+                <h2><?= $question['question_body'] ?></h2>
+                <form method='post' action='#'>
+                    <input type="hidden" name="question_id" value="<?= $question['question_id'] ?>" ?>
+                    <label for='answer_body'>Enter an Answer:</label>
+                    <input id='answer_body' name='answer_body' value='<?= empty($question['answer_body']) ? "" : $question['answer_body'] ?>'>
+                    <input id="submit_answer" name='submit_answer' type="submit" value="Answer">
+                </form>
+            </section>
+        <?php endif ?>
+    <?php endwhile ?>
 
-
-<?php if($_GET && !empty($_GET['id']) && filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT)): ?>
+<!-- Standard Display -->
+<?php else: ?>
+    <!-- New Question  -->
     <section class="new_question">
         <form method='post' action='#'>
             <label for='question'>Your Question:</label>
             <input id='question' name='question'>
             <input id="submit" name='submit' type="submit" value="Submit">
         </form>
+
+        <!-- Error if user submitted a question without being logged in -->
         <?php if($_POST && !empty($_POST['question']) && $_SESSION['login_status'] !== 'loggedin'): ?>
             <p class='question_error'>You must be logged in before asking a question</p>
         <?php endif ?>
     </section>
+
+    <!-- Display all existing questions -->
     <?php while ($question = $question_statement->fetch()): ?>
         <section class="object_question">
             <p><?= empty($question['user_name']) ? '[deleted user]' : $question['user_name'] ?> - <?= $question['question_timestamp'] ?></p>
             <h2><?= $question['question_body'] ?></h2>
-            <h3><?= empty($question['answer_body']) ? "Not Yet Answered" : $question['answer_body'] ?></h3>
-            <p><?= 'Answered on: ' . $question['answer_timestamp'] ?></p>
+            <?php if(!empty($question['answer_body'])): ?>
+                <h3><?= $question['answer_body'] ?></h3>
+                <p><?= 'Answered on: ' . $question['answer_timestamp'] ?></p>
+            <?php else: ?>
+                <p>Unanswered</p>
+            <?php endif ?>    
+
+            <!-- Delete and Answer options for admins -->
             <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
                 <form method='post' action='#'>
                     <input type="hidden" name="question_id" value="<?= $question['question_id'] ?>" ?>
                     <input id="delete" name='delete' type="submit" value="Delete">
+                    <input id="edit_answer" name='edit_answer' type="submit" value="Answer">
                 </form>
             <?php endif ?>    
         </section>
     <?php endwhile ?>
-<?php endif ?>
+<?php endif ?> 
 
 
