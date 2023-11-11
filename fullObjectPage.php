@@ -14,6 +14,8 @@ require('connect.php');
 define('OBJECT_TABLE_NAME', 'celestial_objects');
 define('QUESTION_TABLE_NAME', 'questions');
 define('USER_TABLE_NAME', 'users');
+define('CAT_TO_OBJ_TABLE', 'category_to_object');
+define('CATEGORY_TABLE', 'object_categories');
 
 
 // Redirect the user to the index page
@@ -33,7 +35,17 @@ $statement = $db->prepare($query);
 $statement->bindValue(':id', $_GET['id']);
 $statement->execute();
 
-// Redirect if no rows or multiple rows were found
+// Select all of the categories
+$category_query = '
+SELECT cat.category_name 
+FROM ' . CAT_TO_OBJ_TABLE . ' cto
+JOIN ' . CATEGORY_TABLE . ' cat ON cto.category_id = cat.category_id
+WHERE cto.object_id LIKE :id';
+$category_statement = $db->prepare($category_query);
+$category_statement->bindValue(':id', $_GET['id']);
+$category_statement->execute();
+
+// Redirect if no rows or multiple rows of objects were found
 if ($statement->rowCount() < 1 || 1 > $statement->rowCount())
     redirect();
 
@@ -85,6 +97,11 @@ $object = $statement->fetch();
         <main>
             <section>
                 <h2>Name: <?= $object['object_name'] ?></h2>
+                <h3>Categories:</h3>
+                <?php while ($category = $category_statement->fetch()): ?>
+                    <div class="category"><?= $category['category_name'] ?></div>
+                <?php endwhile ?>
+                <br>
                 <p>Name (scientific): <?= $object['object_scientific_name'] ?></p>
                 <p>ID: <?= $object['object_id'] ?></p>
                 <p>Mass (kg): <?= $object['object_mass_kg'] ?></p>
