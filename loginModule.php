@@ -70,7 +70,7 @@ if ($_POST)
                             $login_statement->bindValue(':email', $email);
                             $login_statement->bindValue(':password_hash', $password_hash);
                             $login_statement->execute();
-                            echo '<p class="login-error">Account Created</p>';
+                            echo '<p class="login-success">Account Created</p>';
                             $_POST['create-account'] = null;
                         }
                     }
@@ -100,7 +100,7 @@ if ($_POST)
             else
             {
                 // Set the session to logged in and save the account information
-                echo '<p class="login-error">Sucessful Login</p>';
+                echo '<p class="login-success">Sucessful Login</p>';
                 $_SESSION['login_status'] = 'loggedin';
                 $_SESSION['login_account'] = $account;
             }
@@ -122,15 +122,15 @@ if ($_POST)
 
 <!-- User is logged in -->
 <?php if($_SESSION['login_status'] === 'loggedin'): ?>
-    <form method='post' action='#'>
-        <label for='logout'>Account: <?= $_SESSION['login_account']['user_name'] ?></label><br> 
+    <form id="loginModule_loggedIn" method='post' action='#'>
+        <p>Account: <?= $_SESSION['login_account']['user_name'] ?></p>
         <input id="logout" name='logout' type="submit" value="Logout">
     </form>
 
 <!-- User is registering a new account -->
 <?php elseif(!empty($_POST['register']) || !empty($_POST['create-account'])): ?>
-    <form method='post' action='#'>
-        <h3>Register an Account</h3>
+    <form id="loginModule_register" method='post' action='#'>
+        <p>Register an Account</p>
         <label for='username'>Username:</label>
         <input id='username' name='username'><br> 
         <label for='email'>Email Address:</label>
@@ -144,12 +144,15 @@ if ($_POST)
 
 <!-- User is a guest (not signed in) -->
 <?php elseif($_SESSION['login_status'] === 'guest'): ?>
-    <form method='post' action='#'>
+    <form id="loginModule_guest" method='post' action='#'>
+        <p>Login to Your Account</p>
         <label for='username'>Username:</label>
         <input id='username' name='username'><br>  
         <label for='password'>Password:</label>
         <input id='password' type ='password' name='password'><br> 
-        <input id="login" name='login' type="submit" value="Login">
-        <input id="register" name='register' type="submit" value="Register">
+        <div>
+            <input id="login" name='login' type="submit" value="Login">
+            <input id="register" name='register' type="submit" value="Register">
+        </div>
     </form>
 <?php endif ?>

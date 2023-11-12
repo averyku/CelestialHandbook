@@ -5,22 +5,170 @@
     Updated: 2023 November 4th
 */
 
-div#login_module
+@font-face 
 {
-    padding: 10px;
-    width:400px;
-    background-color: rgb(220,220,220);
-    border: black solid 1px;
+    font-family: lato_main;
+    src: url(fonts/lato/Lato-Medium.ttf);
+    /* font src: https://www.latofonts.com */
 }
+
+p, a, b, h1, h2, h3, h4, ol, ul, li, div, nav, header, main, section, footer, form, label, input, img
+{
+    padding: 0;
+    margin: 0;
+    color: white;
+    font-size: medium;
+    font-style: normal;
+    font-family: lato_main;
+    /* font-family: Verdana, Geneva, Tahoma, sans-serif; */
+    /* font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; */
+    /* font-family:Arial, Helvetica, sans-serif; */
+    /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
+    font-weight: 500;
+    text-decoration: none;
+    list-style-type: none;
+}
+body
+{
+    background-color: black;
+}
+input
+{
+    background-color: black;
+    border-style: inset;
+    border: white solid 1px;
+}
+
+
+
+
+
 div#question_module
 {
     padding: 10px;
     width:600px;
-    background-color: rgb(220,220,220);
-    border: black solid 1px;
+    background-color: black;
+    border: white solid 1px;
 }
 div#question_module section
 {
     border: black solid 1px;
+    padding: 5px;
+}
+
+
+/* HEADER */
+header 
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+div#header_top
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+div#header_top h1 a
+{
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 50px;
+}
+nav
+{
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+
+    border: white solid 1px;
+    /* background-color: blue; */
+}
+
+
+
+/* LOGIN MODULE*/
+.login-error
+{
+    font-weight: bold;
+    color: black;
+    background-color: darkred;
+    text-align: center;
+    width: 140%;
+    padding: 5px;
+}
+.login-success
+{
+    font-weight: bold;
+    color: black;
+    background-color: darkgreen;
+    text-align: center;
+    width: 140%;
+    padding: 5px;
+}
+div#login_module
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    /* border: white solid 1px; */
+}
+form#loginModule_loggedIn
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+form#loginModule_loggedIn input
+{
+    padding: 5px;
+    margin-top: 5px;
+    margin-left: 15px;
+}
+form#loginModule_guest
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    border: white solid 1px;
+    width: 150%;
+}
+form#loginModule_guest p
+{
+    font-weight: bold;
+    margin: 10px;
+}
+form#loginModule_guest input
+{
+    padding: 5px;
+    margin: 5px;
+    margin-bottom: 0px;
+}
+
+form#loginModule_register
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    border: white solid 1px;
+    width: 150%;
+}
+form#loginModule_register p
+{
+    font-weight: bold;
+    margin: 10px;
+}
+form#loginModule_register input
+{
     padding: 5px;
 }

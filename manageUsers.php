@@ -41,19 +41,21 @@ $user_statement->execute();
     <div id="admin_panel">
 
         <!-- Header -->
-        <h1><a href="index.php">The Celestial Handbook</a></h1>
+        <header>
+            <div id="header_top">
+                <h1><a href="index.php">The Celestial Handbook</a></h1>
 
-        <!-- Login / Out Panel -->
-        <div id="login_module">
-            <?php require('loginModule.php'); ?>
-        </div>
+                <!-- Login / Out Panel -->
+                <div id="login_module">
+                    <?php require('loginModule.php'); ?>
+                </div>
+            </div>
 
-        <br><br>
-
-        <!-- Navigation -->
-        <nav>
-            <?php require('nav.php'); ?>
-        </nav>
+            <!-- Navigation -->
+            <nav>
+                <?php require('nav.php'); ?>
+            </nav>
+        </header>
 
         <!-- Table of All Users -->
         <h2><a href='editUser.php'>New User</a></h2>

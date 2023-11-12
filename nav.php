@@ -13,11 +13,10 @@
 ?>
 
 <!-- Display Navigation Elements -->
-<ul>
-    <li><a href="index.php">All Celestial Objects</a></li>
-    <li><a href="objectsByCategory.php">All Object Categories</a></li>
-    <li><a href="https://www.asc-csa.gc.ca/eng/">Canadian Space Agency</a></li>
-    <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
-        <li><a href="manageUsers.php">Manage Users</a></li>
-    <?php endif ?>
-</ul>
+
+<a href="index.php">All Celestial Objects</a>
+<a href="objectsByCategory.php">All Object Categories</a>
+<a href="https://www.asc-csa.gc.ca/eng/">Canadian Space Agency</a>
+<?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
+    <a href="manageUsers.php">Manage Users</a>
+<?php endif ?>
