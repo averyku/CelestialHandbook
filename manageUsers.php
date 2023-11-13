@@ -38,25 +38,25 @@ $user_statement->execute();
     <title>Manage Users</title>
 </head>
 <body>
-    <div id="admin_panel">
 
-        <!-- Header -->
-        <header>
-            <div id="header_top">
-                <h1><a href="index.php">The Celestial Handbook</a></h1>
+    <!-- Header -->
+    <header>
+        <div id="header_top">
+            <h1><a href="index.php">The Celestial Handbook</a></h1>
 
-                <!-- Login / Out Panel -->
-                <div id="login_module">
-                    <?php require('loginModule.php'); ?>
-                </div>
+            <!-- Login / Out Panel -->
+            <div id="login_module">
+                <?php require('loginModule.php'); ?>
             </div>
+        </div>
 
-            <!-- Navigation -->
-            <nav>
-                <?php require('nav.php'); ?>
-            </nav>
-        </header>
+        <!-- Navigation -->
+        <nav>
+            <?php require('nav.php'); ?>
+        </nav>
+    </header>
 
+    <div id="admin_panel">
         <!-- Table of All Users -->
         <h2><a href='editUser.php'>New User</a></h2>
         <table>

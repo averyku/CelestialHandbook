@@ -30,31 +30,34 @@ p, a, b, h1, h2, h3, h4, ol, ul, li, div, nav, header, main, section, footer, fo
 }
 body
 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    min-width: min-content;
+
     background-color: black;
 }
-input
+input, textarea
 {
+    font-family: lato_main;
+    color: white;
     background-color: black;
+    border: white solid 1px;
     border-style: inset;
-    border: white solid 1px;
+    text-align: center;
 }
-
-
-
-
-
-div#question_module
+input[type="submit"]
 {
-    padding: 10px;
-    width:600px;
-    background-color: black;
-    border: white solid 1px;
+    padding:8px;
+    border-radius: 6px;
 }
-div#question_module section
+b
 {
-    border: black solid 1px;
-    padding: 5px;
+    font-weight: bold;
 }
+
+
 
 
 /* HEADER */
@@ -63,6 +66,8 @@ header
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    width: 100%;
 }
 div#header_top
 {
@@ -91,6 +96,8 @@ nav
 
 
 
+
+
 /* LOGIN MODULE*/
 .login-error
 {
@@ -116,7 +123,7 @@ div#login_module
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    /* border: white solid 1px; */
+    padding: 5px;
 }
 form#loginModule_loggedIn
 {
@@ -127,7 +134,6 @@ form#loginModule_loggedIn
 }
 form#loginModule_loggedIn input
 {
-    padding: 5px;
     margin-top: 5px;
     margin-left: 15px;
 }
@@ -138,6 +144,7 @@ form#loginModule_guest
     justify-content: center;
     flex-direction: column;
 
+    padding: 5px;
     border: white solid 1px;
     width: 150%;
 }
@@ -148,11 +155,9 @@ form#loginModule_guest p
 }
 form#loginModule_guest input
 {
-    padding: 5px;
     margin: 5px;
     margin-bottom: 0px;
 }
-
 form#loginModule_register
 {
     display: flex;
@@ -160,6 +165,7 @@ form#loginModule_register
     justify-content: center;
     flex-direction: column;
 
+    padding: 5px;
     border: white solid 1px;
     width: 150%;
 }
@@ -168,7 +174,132 @@ form#loginModule_register p
     font-weight: bold;
     margin: 10px;
 }
-form#loginModule_register input
+
+
+
+
+
+/* CELESTIAL OBJECT */
+main#celestial_object
 {
-    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;  
+    width: 100%;
 }
+main#celestial_object h2
+{
+    font-size: 50px;
+}
+main#celestial_object h3
+{
+    font-size: 25px;
+}
+main#celestial_object b
+{
+    font-weight: bold;
+}
+main#celestial_object table
+{
+    width: 100%;
+    max-width: 360px;
+}
+main#celestial_object th
+{
+    text-align: left;
+}
+main#celestial_object td
+{
+    text-align: right;
+}
+.object_catagories
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;  
+}
+.category
+{
+    margin: 10px;
+    padding: 8px;
+    border-radius: 15px;
+    background-color: lightblue;
+    color: black;
+    font-weight: bold;
+}
+img
+{
+    /* width: 500px;
+    height: 300px; */
+    width: 360px;
+    height: 240px;
+    object-fit: contain;
+}
+
+
+
+
+
+/* QUESTION MODULE */
+div#question_module
+{
+    padding: 10px;
+    width:100%;
+}
+div#question_module section
+{
+    border: white solid 1px;
+    padding: 10px;
+}
+.new_question form
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;  
+}
+.new_question textarea
+{
+    width: 80%;
+    height: 40px;
+    margin: 10px;
+    padding:10px;
+
+    text-align:center;
+}
+.question_header
+{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    width: 95%;
+    justify-content: space-between;
+    padding-bottom: 25px;
+}
+.object_question p
+{
+    font-size: small;
+    padding-bottom: 5px;
+}
+.object_question h2
+{
+    font-weight: bold;
+    font-size: larger;
+    padding-bottom: 25px;
+}
+.object_question h3
+{
+    font-weight: bold;
+    font-size: large;
+    padding-bottom: 10px;
+}
+
+
+
+
+
+
+
+

@@ -53,57 +53,54 @@ if ($_GET
     <title>Celestial Handbook</title>
 </head>
 <body>
-    <div id="content">
+    <!-- Header -->
+    <header>
+        <div id="header_top">
+            <h1><a href="index.php">The Celestial Handbook</a></h1>
 
-        <!-- Header -->
-        <header>
-            <div id="header_top">
-                <h1><a href="index.php">The Celestial Handbook</a></h1>
-
-                <!-- Login / Out Panel -->
-                <div id="login_module">
-                    <?php require('loginModule.php'); ?>
-                </div>
+            <!-- Login / Out Panel -->
+            <div id="login_module">
+                <?php require('loginModule.php'); ?>
             </div>
+        </div>
 
-            <!-- Navigation -->
-            <nav>
-                <?php require('nav.php'); ?>
-            </nav>
-        </header>
+        <!-- Navigation -->
+        <nav>
+            <?php require('nav.php'); ?>
+        </nav>
+    </header>
 
-        <br><br><br>
+    <br><br><br>
 
-        <!-- List of All Categories -->
-        <h2>Select a Category</h2>
-        <ul id="catrgory_list">
-            <?php while ($category = $category_statement->fetch()): ?>
-                <li>
-                    <a href='objectsByCategory.php?category_id=<?= $category['category_id'] ?>'><?= $category['category_name'] ?></a>
-                </li>
-            <?php endwhile ?>
-        </ul>
+    <!-- List of All Categories -->
+    <h2>Select a Category</h2>
+    <ul id="catrgory_list">
+        <?php while ($category = $category_statement->fetch()): ?>
+            <li>
+                <a href='objectsByCategory.php?category_id=<?= $category['category_id'] ?>'><?= $category['category_name'] ?></a>
+            </li>
+        <?php endwhile ?>
+    </ul>
 
-        <!-- List All Objects from the category-->
-        <?php if (!empty($object_statement)): ?>
-            <main>
-                <?php $titleDisplayed = false; ?>
-                <ul>
-                    <?php while ($object = $object_statement->fetch()): ?>
-                        <?php if (!$titleDisplayed): ?>
-                            <li>All <?= $object['category_name']  ?> Objects</li>
-                            <?php $titleDisplayed = true; ?>
-                        <?php endif ?>
-                        <li>
-                            <a href='fullObjectPage.php?id=<?= $object['object_id'] ?>'><?= $object['object_name'] ?></a>
-                        </li>
-                    <?php endwhile ?>
-                </ul>
-            </main>
-        <?php endif ?>
-        
-        <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
-    </div>
+    <!-- List All Objects from the category-->
+    <?php if (!empty($object_statement)): ?>
+        <main>
+            <?php $titleDisplayed = false; ?>
+            <ul>
+                <?php while ($object = $object_statement->fetch()): ?>
+                    <?php if (!$titleDisplayed): ?>
+                        <li>All <?= $object['category_name']  ?> Objects</li>
+                        <?php $titleDisplayed = true; ?>
+                    <?php endif ?>
+                    <li>
+                        <a href='fullObjectPage.php?id=<?= $object['object_id'] ?>'><?= $object['object_name'] ?></a>
+                    </li>
+                <?php endwhile ?>
+            </ul>
+        </main>
+    <?php endif ?>
+    
+    <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
 </body>
 </html>
 

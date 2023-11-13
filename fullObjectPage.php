@@ -68,60 +68,80 @@ $object = $statement->fetch();
     <title>Celestial Handbook</title>
 </head>
 <body>
-    <div id="content">
+    <!-- Header -->
+    <header>
+        <div id="header_top">
+            <h1><a href="index.php">The Celestial Handbook</a></h1>
 
-        <!-- Header -->
-        <header>
-            <div id="header_top">
-                <h1><a href="index.php">The Celestial Handbook</a></h1>
-
-                <!-- Login / Out Panel -->
-                <div id="login_module">
-                    <?php require('loginModule.php'); ?>
-                </div>
+            <!-- Login / Out Panel -->
+            <div id="login_module">
+                <?php require('loginModule.php'); ?>
             </div>
+        </div>
 
-            <!-- Navigation -->
-            <nav>
-                <?php require('nav.php'); ?>
-            </nav>
-        </header>
+        <!-- Navigation -->
+        <nav>
+            <?php require('nav.php'); ?>
+        </nav>
+    </header>
+
+    <br><br><br>
+
+    <!-- All Information About An Object -->
+    <main id="celestial_object">
+        <!-- Name(s) -->
+        <h2><?= $object['object_name'] ?></h2>
+        <?php if(!empty($object['object_scientific_name'])): ?>
+            <h3><?= $object['object_scientific_name'] ?></h3>
+        <?php endif ?>
+        <br>
+
+        <!-- Testing Only -->
+        <p>ID: <?= $object['object_id'] ?></p>
+        
+        <!-- Catagories -->
+        <div class="object_catagories">
+        <?php while ($category = $category_statement->fetch()): ?>
+            <div class="category"><?= $category['category_name'] ?></div>
+        <?php endwhile ?>
+        </div>
+
+        <br><br>
+
+        <table>
+            <tr>
+                <th>Mass:</th>
+                <td><?= $object['object_mass_kg'] ?> kg</td>
+            </tr>
+            <tr>
+                <th>Radius:</th>
+                <td><?= $object['object_radius'] ?> <?= $object['object_radius_unit'] ?></td>
+            </tr>
+            <tr>
+                <th>Location:</th>
+                <td><?= $object['object_location'] ?></td>
+            </tr>
+            <tr>
+                <th>Distance from <?= $object['object_distance_from'] ?>:</th>
+                <td><?= $object['object_distance'] ?> <?= $object['object_distance_unit'] ?></td>
+            </tr>
+        </table>
 
         <br><br><br>
 
-        <!-- All Information About An Object -->
-        <main>
-            <section>
-                <h2>Name: <?= $object['object_name'] ?></h2>
-                <h3>Categories:</h3>
-                <?php while ($category = $category_statement->fetch()): ?>
-                    <div class="category"><?= $category['category_name'] ?></div>
-                <?php endwhile ?>
-                <br>
-                <p>Name (scientific): <?= $object['object_scientific_name'] ?></p>
-                <p>ID: <?= $object['object_id'] ?></p>
-                <p>Mass (kg): <?= $object['object_mass_kg'] ?></p>
-                <p>Radius (km): <?= $object['object_radius_km'] ?></p>
-                <p>Distance From Earth (km): <?= $object['object_distance_from_earth'] ?></p>
-                <p>Distance From Sun (km): <?= $object['object_distance_from_sun'] ?></p>
-                <p>Velocity (km/s): <?= $object['object_velocity_kms'] ?></p>
-                <p>Surface Temperature (k): <?= $object['object_surface_temperature_k'] ?></p>
-                <p>Atmosphere: <?= $object['object_has_atmosphere'] ?></p>
-                <?php if(!empty($object['object_media'])): ?>
-                    <p>link: <?= $object['object_media'] ?></p>
-                    <img src='<?= $object['object_media'] ?>' width="500" height="300" style="object-fit: contain;" />
-                <?php endif ?>  
-                <br><br><br><br><br><br>
-            </section>
-
-            <!-- Questions -->
-            <div id="question_module">
-                <?php require('questionModule.php'); ?>
-            </div>
-        </main>
-    
+        <?php if(!empty($object['object_media'])): ?>
+            <p><b>link:</b> <?= $object['object_media'] ?></p>
+            <img src='<?= $object['object_media'] ?>' />
+        <?php endif ?>  
         <br><br><br>
-        <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
+    </main>
+
+    <!-- Questions -->
+    <div id="question_module">
+        <?php require('questionModule.php'); ?>
     </div>
+
+    <br><br><br>
+    <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
 </body>
 </html>

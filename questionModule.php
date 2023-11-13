@@ -9,6 +9,8 @@
 
 ****************/
 
+define('DATE_FORMAT', 'Y, M j, G:i:s');
+
 
 // Question Submit New
 if( $_POST 
@@ -111,8 +113,8 @@ if( $_GET
     <!-- New Question  -->
     <section class="new_question">
         <form method='post' action='#'>
-            <label for='question'>Your Question:</label>
-            <input id='question' name='question'>
+            <label for='question'><b>Submit Your Own Question:</b></label>
+            <textarea id='question' name='question'></textarea>
             <input id="submit" name='submit' type="submit" value="Submit">
         </form>
 
@@ -125,11 +127,14 @@ if( $_GET
     <!-- Display all existing questions -->
     <?php while ($question = $question_statement->fetch()): ?>
         <section class="object_question">
-            <p><?= empty($question['user_name']) ? '[deleted user]' : $question['user_name'] ?> - <?= $question['question_timestamp'] ?></p>
+            <div class="question_header">
+                <p><?= empty($question['user_name']) ? '[deleted user]' : $question['user_name'] ?></p>
+                <p><?= date(DATE_FORMAT, strtotime($question['question_timestamp'])) ?></p>
+            </div>
             <h2><?= $question['question_body'] ?></h2>
             <?php if(!empty($question['answer_body'])): ?>
+                <p><?= 'Answered on: ' . date(DATE_FORMAT, strtotime($question['answer_timestamp'])) ?></p>
                 <h3><?= $question['answer_body'] ?></h3>
-                <p><?= 'Answered on: ' . $question['answer_timestamp'] ?></p>
             <?php else: ?>
                 <p>Unanswered</p>
             <?php endif ?>    
