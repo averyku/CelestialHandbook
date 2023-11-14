@@ -73,33 +73,32 @@ if ($_GET
     <br><br><br>
 
     <!-- List of All Categories -->
-    <h2>Select a Category</h2>
-    <ul id="catrgory_list">
-        <?php while ($category = $category_statement->fetch()): ?>
-            <li>
-                <a href='objectsByCategory.php?category_id=<?= $category['category_id'] ?>'><?= $category['category_name'] ?></a>
-            </li>
-        <?php endwhile ?>
-    </ul>
+    <main id="main">
+        <h2>All Categories</h2>
+        <ul id="main_list">
+            <?php while ($category = $category_statement->fetch()): ?>
+                <a href='objectsByCategory.php?category_id=<?= $category['category_id'] ?>#sub_list'>
+                    <li><?= $category['category_name'] ?></li>
+                </a>
+            <?php endwhile ?>
+        </ul>
 
-    <!-- List All Objects from the category-->
-    <?php if (!empty($object_statement)): ?>
-        <main>
-            <?php $titleDisplayed = false; ?>
-            <ul>
-                <?php while ($object = $object_statement->fetch()): ?>
-                    <?php if (!$titleDisplayed): ?>
-                        <li>All <?= $object['category_name']  ?> Objects</li>
-                        <?php $titleDisplayed = true; ?>
-                    <?php endif ?>
-                    <li>
-                        <a href='fullObjectPage.php?id=<?= $object['object_id'] ?>'><?= $object['object_name'] ?></a>
-                    </li>
-                <?php endwhile ?>
-            </ul>
-        </main>
-    <?php endif ?>
-    
+        <!-- List All Objects from the category-->
+        <?php if (!empty($object_statement)): ?>
+                <?php $titleDisplayed = false; ?>
+                <ul id="sub_list">
+                    <?php while ($object = $object_statement->fetch()): ?>
+                        <?php if (!$titleDisplayed): ?>
+                            <h3>All <?= $object['category_name']  ?> Objects</h3>
+                            <?php $titleDisplayed = true; ?>
+                        <?php endif ?>
+                        <a href='fullObjectPage.php?id=<?= $object['object_id'] ?>#celestial_object'>
+                            <li><?= $object['object_name'] ?></li>
+                        </a>
+                    <?php endwhile ?>
+                </ul>
+        <?php endif ?>
+    </main>
     <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
 </body>
 </html>

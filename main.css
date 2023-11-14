@@ -12,7 +12,7 @@
     /* font src: https://www.latofonts.com */
 }
 
-p, a, b, h1, h2, h3, h4, ol, ul, li, div, nav, header, main, section, footer, form, label, input, img
+body, p, a, b, h1, h2, h3, h4, ol, ul, li, div, nav, header, main, section, footer, form, label, input, img
 {
     padding: 0;
     margin: 0;
@@ -27,6 +27,7 @@ p, a, b, h1, h2, h3, h4, ol, ul, li, div, nav, header, main, section, footer, fo
     font-weight: 500;
     text-decoration: none;
     list-style-type: none;
+    box-sizing: border-box;
 }
 body
 {
@@ -34,9 +35,30 @@ body
     flex-direction: column;
     align-items: center;
     text-align: center;
+
+    margin: auto;
     min-width: min-content;
+    max-width: 1000px;
 
     background-color: black;
+}
+main
+{
+    width: 100%;
+}
+main h2
+{
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+main h3
+{
+    font-size: 28px;
+    margin-bottom: 9px;
+}
+footer
+{
+    padding-bottom: 10px;
 }
 input, textarea
 {
@@ -56,6 +78,10 @@ b
 {
     font-weight: bold;
 }
+a:hover
+{
+    color:lightblue;
+}
 
 
 
@@ -67,7 +93,7 @@ header
     flex-direction: column;
     align-items: center;
     text-align: center;
-    width: 100%;
+    width: 99%;
 }
 div#header_top
 {
@@ -85,13 +111,31 @@ nav
 {
     width: 100%;
     min-height: 50px;
+}
+nav ul
+{
+    height: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
-    align-items: center;
-
     border: white solid 1px;
-    /* background-color: blue; */
+}
+nav li
+{
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-right: white solid 1px;
+}
+nav li:last-of-type
+{
+    border:none;
+}
+nav li:hover
+{
+    background-color: rgb(70,70,70);
 }
 
 
@@ -213,12 +257,13 @@ main#celestial_object td
 {
     text-align: right;
 }
-.object_catagories
+div#object_catagories
 {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: row;  
+    flex-wrap: wrap;
 }
 .category
 {
@@ -251,6 +296,8 @@ div#question_module
 div#question_module section
 {
     border: white solid 1px;
+    margin-top: 20px;
+    border-radius: 20px;
     padding: 10px;
 }
 .new_question form
@@ -278,28 +325,142 @@ div#question_module section
     justify-content: space-between;
     padding-bottom: 25px;
 }
-.object_question p
+div#question_module p
 {
     font-size: small;
     padding-bottom: 5px;
 }
-.object_question h2
+div#question_module h2
 {
     font-weight: bold;
     font-size: larger;
     padding-bottom: 25px;
 }
-.object_question h3
+div#question_module h3
 {
     font-weight: bold;
     font-size: large;
     padding-bottom: 10px;
+}
+.object_question form input:last-of-type
+{
+    margin-left: 10px;
+}
+.answering_question form
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; 
+}
+.answering_question textarea
+{
+    width: 80%;
+    height: 40px;
+    margin: 10px;
+    padding:10px;
+
+    text-align:center;
 }
 
 
 
 
 
+/* INDEX / ALL OBJECTS LIST */
+ul#main_list
+{
+    margin: auto;
+    margin-bottom: 50px;
+    width: 70%;
+}
+ul#main_list li
+{
+    padding: 8px;
+    border: white solid 1px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+ul#main_list li:hover
+{
+    background-color: rgb(70,70,70);
+}
+ul#sub_list
+{
+    margin: auto;
+    margin-bottom: 50px;
+    width: 60%;
+}
+ul#sub_list li
+{
+    padding: 6px;
+    border: white solid 1px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+ul#sub_list li:hover
+{
+    background-color: rgb(70,70,70);
+}
 
+
+
+
+
+/* ADMIN - MANAGE / NEW USERS */
+div#admin_panel
+{
+    padding: 50px;
+    width: 100%;
+}
+div#admin_panel table
+{
+    margin-top: 20px;
+    width: 100%;
+}
+div#admin_panel td a
+{
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+div#admin_panel tr:first-of-type
+{
+    background-color: rgb(70,70,70);
+}
+div#admin_panel tr:first-of-type th:first-of-type
+{
+    background-color: black;
+}
+div#admin_panel h2
+{
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+div#admin_panel form
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    margin: auto;
+    width: 60%;
+    padding: 20px;
+    border: white solid 1px;
+}
+div#admin_panel form input[type="password"], input[type="text"]
+{
+    width: 80%;
+}
+.edit_user_error
+{
+    width:100%;
+    background-color: darkred;
+    color: black;
+    font-weight: bold;
+}
 
 

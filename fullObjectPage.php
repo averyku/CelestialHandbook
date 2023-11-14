@@ -100,7 +100,7 @@ $object = $statement->fetch();
         <p>ID: <?= $object['object_id'] ?></p>
         
         <!-- Catagories -->
-        <div class="object_catagories">
+        <div id="object_catagories">
         <?php while ($category = $category_statement->fetch()): ?>
             <div class="category"><?= $category['category_name'] ?></div>
         <?php endwhile ?>

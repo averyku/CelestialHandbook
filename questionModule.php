@@ -96,12 +96,15 @@ if( $_GET
     <?php while ($question = $question_statement->fetch()): ?>
         <?php if ($question['question_id'] == $_POST['question_id']): ?>
             <section class="answering_question">
-                <p><?= empty($question['user_name']) ? '[deleted user]' : $question['user_name'] ?> - <?= $question['question_timestamp'] ?></p>
+                <div class="question_header">
+                    <p><?= empty($question['user_name']) ? '[deleted user]' : $question['user_name'] ?></p>
+                    <p><?= date(DATE_FORMAT, strtotime($question['question_timestamp'])) ?></p>
+                </div>
                 <h2><?= $question['question_body'] ?></h2>
                 <form method='post' action='#'>
                     <input type="hidden" name="question_id" value="<?= $question['question_id'] ?>" ?>
                     <label for='answer_body'>Enter an Answer:</label>
-                    <input id='answer_body' name='answer_body' value='<?= empty($question['answer_body']) ? "" : $question['answer_body'] ?>'>
+                    <textarea id='answer_body' name='answer_body'><?= empty($question['answer_body']) ? "" : $question['answer_body'] ?></textarea>
                     <input id="submit_answer" name='submit_answer' type="submit" value="Answer">
                 </form>
             </section>

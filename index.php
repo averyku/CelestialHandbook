@@ -51,14 +51,15 @@ $statement->execute();
     </header>
 
     <br><br><br>
-
-    <!-- List of All Objects -->
-    <main>
-        <ul id="object_list">
+    
+    <main id="main">
+        <!-- List of All Objects -->
+        <h2>All Objects</h2>
+        <ul id="main_list">
             <?php while ($row = $statement->fetch()): ?>
-                <li>
-                    <a href='fullObjectPage.php?id=<?= $row['object_id'] ?>'><?= $row['object_name'] ?></a>
-                </li>
+                <a href='fullObjectPage.php?id=<?= $row['object_id'] ?>#celestial_object'>
+                    <li><?= $row['object_name'] ?></li>
+                </a>
             <?php endwhile ?>
         </ul>
     </main>

@@ -58,7 +58,7 @@ $user_statement->execute();
 
     <div id="admin_panel">
         <!-- Table of All Users -->
-        <h2><a href='editUser.php'>New User</a></h2>
+        <input type="submit" value="Create New User" onclick="window.location.href = 'editUser.php'">
         <table>
             <tr>
                 <th></th>
@@ -73,7 +73,7 @@ $user_statement->execute();
                         <?php if($row['user_id'] === $_SESSION['login_account']['user_id']): ?>
                             Your Account
                         <?php else: ?>
-                        <a href='editUser.php?id=<?= $row['user_id'] ?>'>Edit</a> <a href='editUser.php?id=<?= $row['user_id'] ?>&delete=true'>Delete</a>
+                        <a href='editUser.php?id=<?= $row['user_id'] ?>'>Edit</a> / <a href='editUser.php?id=<?= $row['user_id'] ?>&delete=true'>Delete</a>
                         <?php endif ?>
                     </td>
                     <td><?= $row['user_id'] ?></td>
