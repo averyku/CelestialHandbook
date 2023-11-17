@@ -257,7 +257,7 @@ main#celestial_object td
 {
     text-align: right;
 }
-div#object_catagories
+div#object_categories
 {
     display: flex;
     align-items: center;
@@ -267,12 +267,53 @@ div#object_catagories
 }
 .category
 {
+    display: flex;
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+
     margin: 10px;
     padding: 8px;
     border-radius: 15px;
     background-color: lightblue;
     color: black;
     font-weight: bold;
+}
+.category select
+{
+    background-color: lightblue;
+    font-weight: bold;
+    border: none;
+    text-align: center;
+
+}
+#add_category
+{
+    padding: 0px;
+    margin: 0px;
+    margin-left: 5px;
+    height: 25px;
+    width: 45px;
+    line-height: 50%;
+    font-weight: bold;
+    color: black;
+    border-radius: 12px;
+    background-color: green;
+    border: black solid 2px;
+}
+#remove_category
+{
+    padding: 0px;
+    margin: 0px;
+    margin-left: 5px;
+    height: 25px;
+    width: 25px;
+    line-height: 50%;
+    font-weight: bold;
+    color: black;
+    border-radius: 50%;
+    background-color: red;
+    border: black solid 2px;
 }
 img
 {
