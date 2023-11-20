@@ -315,6 +315,12 @@ div#object_categories
     background-color: red;
     border: black solid 2px;
 }
+p#object_description
+{
+    width: 70%;
+    /* padding-left: 50px;
+    padding-right: 50px; */
+}
 img
 {
     /* width: 500px;
@@ -502,6 +508,48 @@ div#admin_panel form input[type="password"], input[type="text"]
     background-color: darkred;
     color: black;
     font-weight: bold;
+}
+
+
+
+
+
+/* MODIFY OBJECT PAGE */
+main#modifyObject
+{
+    width: 80%;
+    margin-top: 50px;
+}
+main#modifyObject form
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column; 
+}
+main#modifyObject form input, select, textarea
+{
+    /* margin-bottom: 15px; */
+    width: 70%;
+    margin-top: 5px;
+    padding: 5px;
+    text-align: center;
+}
+main#modifyObject form textarea
+{
+    width: 100%;
+    height: 100px;
+}
+main#modifyObject form select
+{
+    background-color: black;
+    color: white;
+    border: white solid 1px;
+    margin-bottom: 15px;
+}
+main#modifyObject form input#update
+{
+    width: 30%;
 }
 
 

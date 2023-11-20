@@ -5,7 +5,7 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 3rd
-    Updated: 2023 November 11th
+    Updated: 2023 November 18th
 
 ****************/
 
@@ -15,7 +15,7 @@ define('OBJECT_TABLE_NAME', 'celestial_objects');
 
 
 // Select all objects sorted by name
-$query = 'SELECT * FROM ' . OBJECT_TABLE_NAME . ' ORDER BY object_name DESC';
+$query = 'SELECT * FROM ' . OBJECT_TABLE_NAME . ' ORDER BY object_name ASC';
 $statement = $db->prepare($query);
 $statement->execute();
 
@@ -56,6 +56,14 @@ $statement->execute();
         <!-- List of All Objects -->
         <h2>All Objects</h2>
         <ul id="main_list">
+            <!-- Admins have the ability to create new object -->
+            <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
+                <a href="modifyObject.php">
+                    <li id="new_object_li">New Object</li>
+                </a>
+            <?php endif ?>
+
+            <!-- Display a link to each object -->
             <?php while ($row = $statement->fetch()): ?>
                 <a href='fullObjectPage.php?id=<?= $row['object_id'] ?>#celestial_object'>
                     <li><?= $row['object_name'] ?></li>
