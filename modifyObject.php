@@ -12,6 +12,7 @@
 session_start();
 require('connect.php');
 define('OBJECT_TABLE_NAME', 'celestial_objects');
+define('CAT_TO_OBJ_TABLE', 'category_to_object');
 $distanceMeasuredFromOptions = ["Earth","Sun","Milky Way","Planet"];
 $new = true;
 
@@ -45,11 +46,19 @@ function getObjectInfo($database, $id)
 // Delete the object from the database
 function deleteObject($database)
 {
+    // Delete the object
     $query = "DELETE FROM " . OBJECT_TABLE_NAME . " WHERE object_id=:id LIMIT 1";
     $statement = $database->prepare($query);
     $statement->bindValue(':id', $_GET['id']);
     $statement->execute();
 
+    // Delete all category relationships assigned to the object
+    $query = "DELETE FROM " . CAT_TO_OBJ_TABLE . " WHERE object_id=:id";
+    $statement = $database->prepare($query);
+    $statement->bindValue(':id', $_GET['id']);
+    $statement->execute();
+
+    // Redirect to the list of all objects
     header("Location: index.php#main");
     die();
 }
@@ -66,7 +75,6 @@ function editObject($database, $distanceMeasuredFromOptions)
     || empty($_POST['distance'])
     || empty($_POST['distance_unit'])
     || empty($_POST['distance_from'])
-    || empty($_POST['description'])
     )
     redirect();
 
@@ -137,7 +145,7 @@ function editObject($database, $distanceMeasuredFromOptions)
 
     $statement->execute();
 
-
+    // Redirect to the full page for the object that was updated
     header("Location: fullObjectPage.php?id=".$_POST['id']."#celestial_object");
     die();
 }
@@ -154,7 +162,6 @@ function createObject($database, $distanceMeasuredFromOptions)
         || empty($_POST['distance'])
         || empty($_POST['distance_unit'])
         || empty($_POST['distance_from'])
-        || empty($_POST['description'])
     )
         redirect();
 
@@ -233,8 +240,10 @@ function createObject($database, $distanceMeasuredFromOptions)
     $statement->bindValue(':object_description', $object_description);
 
     $statement->execute();
-    redirect();
 
+    // Redirect to the list of all objects
+    header("Location: index.php#main");
+    die();
 }
 
 
@@ -304,7 +313,7 @@ elseif($_POST)
         </nav>
     </header>
 
-    <main id="modifyObject">
+    <main id="modify">
         <!-- Create / Edit Object Form -->
         <h2> <?= $new ? "Create New Object":"Edit Object" ?></h2>
         <form method='post' action='modifyObject.php'>

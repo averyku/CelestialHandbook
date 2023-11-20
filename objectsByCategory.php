@@ -27,6 +27,7 @@ if ($_GET
     && !empty($_GET['category_id'])
     && filter_input(INPUT_GET,'category_id',FILTER_VALIDATE_INT))
 {
+    // Get the objects of the selected category
     $object_query = '
     SELECT obj.object_name, obj.object_id , cat.category_name
     FROM ' . CAT_TO_OBJ_TABLE . ' cto
@@ -37,6 +38,13 @@ if ($_GET
     $object_statement = $db->prepare($object_query);
     $object_statement->bindValue(':category_id', $_GET['category_id']);
     $object_statement->execute();
+
+    // Query for the name of the category
+    $category_info_query = 'SELECT * FROM ' . CATEGORY_TABLE . ' WHERE category_id = :category_id LIMIT 1';
+    $category_info_statement = $db->prepare($category_info_query);
+    $category_info_statement->bindValue(':category_id', $_GET['category_id']);
+    $category_info_statement->execute();
+    $cat_info = $category_info_statement->fetch();
 }
 
 
@@ -76,6 +84,23 @@ if ($_GET
     <main id="main">
         <h2>All Categories</h2>
         <ul id="main_list">
+            <!-- Admins have the ability to create new object -->
+            <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
+                <a href="modifyCategory.php">
+                    <li id="new_object_li">New Category</li>
+                </a>
+                <!-- Admins have the ability to edit/delete the selected object -->
+                <?php if(!empty($cat_info)): ?>
+                    <a href="modifyCategory.php?edit=true&id=<?= $cat_info['category_id']  ?>">
+                        <li id="edit_category_li">Edit <?= $cat_info['category_name']  ?> Category</li>
+                    </a>
+                    <a href="modifyCategory.php?delete=true&id=<?= $cat_info['category_id']  ?>">
+                        <li id="delete_category_li">Delete <?= $cat_info['category_name']  ?> Category</li>
+                    </a>
+                <?php endif ?>
+            <?php endif ?>
+
+            <!-- Display all categories -->
             <?php while ($category = $category_statement->fetch()): ?>
                 <a href='objectsByCategory.php?category_id=<?= $category['category_id'] ?>#sub_list'>
                     <li><?= $category['category_name'] ?></li>
@@ -88,10 +113,14 @@ if ($_GET
                 <?php $titleDisplayed = false; ?>
                 <ul id="sub_list">
                     <?php while ($object = $object_statement->fetch()): ?>
+
+                        <!-- Display the new headding before list of objects -->
                         <?php if (!$titleDisplayed): ?>
                             <h3>All <?= $object['category_name']  ?> Objects</h3>
                             <?php $titleDisplayed = true; ?>
                         <?php endif ?>
+
+                        <!-- Display a link to each object -->
                         <a href='fullObjectPage.php?id=<?= $object['object_id'] ?>#celestial_object'>
                             <li><?= $object['object_name'] ?></li>
                         </a>

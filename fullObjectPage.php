@@ -55,7 +55,7 @@ $category_statement->execute();
 // Select all of the categories if the user is an admin
 if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin'])
 {
-    $all_category_query = 'SELECT * FROM ' . CATEGORY_TABLE;
+    $all_category_query = 'SELECT * FROM ' . CATEGORY_TABLE . ' ORDER BY category_name ASC';
     $all_category_statement = $db->prepare($all_category_query);
     $all_category_statement->execute();
 }
@@ -154,6 +154,7 @@ function formatDouble($value)
 
         <br><br>
 
+        <!-- Object Information -->
         <table>
             <tr>
                 <th>Mass:</th>
@@ -175,6 +176,7 @@ function formatDouble($value)
 
         <br><br><br>
         
+        <!-- Description (if applicable) -->
         <?php if(!empty($object['object_description'])): ?>
         <b>Description</b>
         <br>
@@ -182,6 +184,7 @@ function formatDouble($value)
         <br><br>
         <?php endif ?>
 
+        <!-- Picture (if applicable) -->
         <?php if(!empty($object['object_media'])): ?>
             <p><b>link:</b> <?= $object['object_media'] ?></p>
             <img src='<?= $object['object_media'] ?>' />
@@ -191,6 +194,7 @@ function formatDouble($value)
         <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
             <div id="modify_post_buttons">
                 <a href="modifyObject.php?edit=true&id=<?= $object['object_id'] ?>">Edit Object</a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="modifyObject.php?delete=true&id=<?= $object['object_id'] ?>">Delete Object</a>
             </div>
         <?php endif ?>
