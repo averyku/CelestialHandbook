@@ -178,18 +178,18 @@ function formatDouble($value)
         
         <!-- Description (if applicable) -->
         <?php if(!empty($object['object_description'])): ?>
-        <b>Description</b>
-        <br>
-        <p id="object_description"><?= $object['object_description'] ?></p>
-        <br><br>
+            <b>Description</b>
+            <br>
+            <p id="object_description"><?= $object['object_description'] ?></p>
+            <br><br>
         <?php endif ?>
 
         <!-- Picture (if applicable) -->
         <?php if(!empty($object['object_media'])): ?>
             <p><b>link:</b> <?= $object['object_media'] ?></p>
             <img src='<?= $object['object_media'] ?>' />
-        <?php endif ?>  
-        <br><br><br>
+            <br><br><br>
+        <?php endif ?> 
 
         <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
             <div id="modify_post_buttons">

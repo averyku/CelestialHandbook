@@ -75,34 +75,3 @@ $statement->execute();
     <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
 </body>
 </html>
-
-
-
-<!-- 
-
-INSERT INTO `celestial_objects`(
-`object_id`, 
-`object_name`, 
-`object_scientific_name`, 
-`object_mass_kg`, 
-`object_radius_km`, 
-`object_distance_from_earth`, 
-`object_distance_from_sun`, 
-`object_velocity_kms`, 
-`object_surface_temperature_k`, 
-`object_has_atmosphere`, 
-`object_media`) 
-VALUES (
-'9001',
-'The Sun',
-'Sol',
-'[value-4]',
-'[value-5]',
-'[value-6]',
-'[value-7]',
-'[value-8]',
-'[value-9]',
-'[value-10]',
-'[value-11]') 
-
--->
