@@ -94,15 +94,9 @@ header
     align-items: center;
     text-align: center;
     width: 99%;
+    margin-bottom: 30px;
 }
-div#header_top
-{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-div#header_top h1 a
+header h1 a
 {
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 50px;

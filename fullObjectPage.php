@@ -72,7 +72,6 @@ function formatDouble($value)
 
     return $value;
 }
-
 ?>
 
 
@@ -89,24 +88,9 @@ function formatDouble($value)
     <title>Celestial Handbook</title>
 </head>
 <body>
+
     <!-- Header -->
-    <header>
-        <div id="header_top">
-            <h1><a href="index.php">The Celestial Handbook</a></h1>
-
-            <!-- Login / Out Panel -->
-            <div id="login_module">
-                <?php require('loginModule.php'); ?>
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <nav>
-            <?php require('nav.php'); ?>
-        </nav>
-    </header>
-
-    <br><br><br>
+    <?php require('headerModule.php'); ?>
 
     <!-- All Information About An Object -->
     <main id="celestial_object">
