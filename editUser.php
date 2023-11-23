@@ -22,7 +22,6 @@ if($_SESSION['login_status'] !== 'loggedin' || !$_SESSION['login_account']['user
 }
 
 
-
 // Redirect the user to the manageUsers page
 function redirect()
 { 
@@ -30,6 +29,8 @@ function redirect()
     die();
 }
 
+
+// Create a new user record
 function newUser($db)
 {
     $username = "";
@@ -89,6 +90,8 @@ function newUser($db)
     redirect();
 }
 
+
+// Delete the user from the database
 function deleteUser($db)
 {
     // Validate ID
@@ -107,6 +110,8 @@ function deleteUser($db)
     redirect();
 }
 
+
+// Edits user's information
 function updateUser($db)
 {
     $id = "";
@@ -229,7 +234,6 @@ elseif($_POST)
     else 
         redirect();
 }
-
 ?>
 
 

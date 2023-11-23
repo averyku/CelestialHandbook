@@ -5,15 +5,15 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 18th
-    Updated: 2023 November 20th
+    Updated: 2023 November 21st
 
 ****************/
 
 session_start();
 
 // Requires ImageResize Library
-require 'ImageResize\lib\ImageResize.php';
-require 'ImageResize\lib\ImageResizeException.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/Library_ImageResize/lib/ImageResize.php';
+require $_SERVER['DOCUMENT_ROOT'] . '/Library_ImageResize/lib/ImageResizeException.php';
 use \Gumlet\ImageResize;
 
 require('connect.php');
@@ -354,10 +354,6 @@ if($_GET)
         if (!empty($_GET['delete']))
         {
             deleteObject($db);
-
-            // Redirect to the list of objects
-            header("Location: index#main");
-            die();
         }
         elseif (!empty($_GET['edit']))
         {

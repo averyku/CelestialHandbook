@@ -584,3 +584,30 @@ input[type="file"], input[type="checkbox"]
     margin-bottom: 25px;
 }
 
+
+
+
+
+/* SORTED OBJECT PAGE */
+table#sorted_object_table
+{
+    margin: auto;
+    width: 80%;
+    margin-bottom: 30px;
+    border: white solid 1px;
+}
+table#sorted_object_table th
+{
+    padding: 5px;
+    background-color: rgb(70,70,70);
+}
+table#sorted_object_table th a
+{
+    font-weight: bold;
+}
+table#sorted_object_table td
+{
+    padding: 5px;
+    border-bottom: rgb(70,70,70) solid 1px;
+}
+

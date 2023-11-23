@@ -70,6 +70,7 @@ $user_statement->execute();
             <?php while ($row = $user_statement->fetch()):?>
                 <tr>
                     <td>
+                        <!-- Do not provide option for a user to edit/delete their own account -->
                         <?php if($row['user_id'] === $_SESSION['login_account']['user_id']): ?>
                             Your Account
                         <?php else: ?>
