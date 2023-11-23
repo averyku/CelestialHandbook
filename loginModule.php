@@ -22,6 +22,9 @@ if (empty($_SESSION['login_status']))
     $_SESSION['login_account'] = '';
 }
 
+// The error that should be displayed, if any
+$error = array("type"=>"none", "message"=>"none");
+
 // Check for POSTed info
 if ($_POST)
 {
@@ -31,17 +34,17 @@ if ($_POST)
 
         // Check for empty fields
         if(empty($_POST['username']) || empty($_POST['email']) || empty($_POST['password']) || empty($_POST['confirm_password']))
-            echo '<p class="login-error">All fields are required</p>';
+            $error = array("type"=>"bad", "message"=>"All fields are required");
         else
         {
             // Check that both passwords match
             if ($_POST['password'] !== $_POST['confirm_password'])
-                echo '<p class="login-error">Passwords do not match</p>';
+                $error = array("type"=>"bad", "message"=>"Passwords do not match");
             else
             {
                 // Check for valid email address
                 if (!filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL))
-                    echo '<p class="login-error">Invalid Email Address</p>';
+                    $error = array("type"=>"bad", "message"=>"Invalid Email Address");
                 else
                 {
                     $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -50,7 +53,7 @@ if ($_POST)
 
                     // Ensure password has was sucessful            
                     if($password_hash === false)
-                        echo '<p class="login-error">Password Hashing Failed</p>';
+                        $error = array("type"=>"bad", "message"=>"Password Hashing Failed");
                     else
                     {
                         $login_query = 'SELECT count(*) FROM ' . USER_TABLE_NAME . ' WHERE user_name LIKE :username';
@@ -60,7 +63,7 @@ if ($_POST)
             
                         // Check for existing account with that username
                         if ($login_statement->fetchColumn() > 0)
-                            echo '<p class="login-error">That Username is already taken</p>';
+                            $error = array("type"=>"bad", "message"=>"That Username is already taken");
                         else
                         {
                             // Create the account
@@ -70,7 +73,7 @@ if ($_POST)
                             $login_statement->bindValue(':email', $email);
                             $login_statement->bindValue(':password_hash', $password_hash);
                             $login_statement->execute();
-                            echo '<p class="login-success">Account Created</p>';
+                            $error = array("type"=>"good", "message"=>"Account Created");
                             $_POST['create-account'] = null;
                         }
                     }
@@ -82,7 +85,7 @@ if ($_POST)
     {
         // Login Attempt
         if(empty($_POST['username']) || empty($_POST['password']))
-            echo '<p class="login-error">You must enter a Username and Password</p>';
+            $error = array("type"=>"bad", "message"=>"You must enter a Username and Password");
         else
         {
             // Sanatize
@@ -96,11 +99,11 @@ if ($_POST)
 
             // Confirm if any account was found, and if the password matches
             if(empty($account['user_id']) || !password_verify($_POST['password'], $account['user_pass']))
-                echo '<p class="login-error">Incorrect Username or Password</p>';
+                $error = array("type"=>"bad", "message"=>"Incorrect Username or Password");
             else
             {
                 // Set the session to logged in and save the account information
-                echo '<p class="login-success">Sucessful Login</p>';
+                $error = array("type"=>"good", "message"=>"Sucessful Login");
                 $_SESSION['login_status'] = 'loggedin';
                 $_SESSION['login_account'] = $account;
             }
@@ -118,41 +121,52 @@ if ($_POST)
 }
 ?>
 
+<div id="login_module">
 
+    <!-- User is logged in -->
+    <?php if($_SESSION['login_status'] === 'loggedin'): ?>
+        <?php if ($error['type'] !== "none"): ?>
+            <p class="<?= ($error['type'] === "bad") ? "login_error":"login_success" ?>"><?=$error['message']?></p>
+        <?php endif ?>
+        <form id="loginModule_loggedIn" method='post' action='#'>
+            <p>Account: <?= $_SESSION['login_account']['user_name'] ?></p>
+            <input id="logout" name='logout' type="submit" value="Logout">
+        </form>
 
-<!-- User is logged in -->
-<?php if($_SESSION['login_status'] === 'loggedin'): ?>
-    <form id="loginModule_loggedIn" method='post' action='#'>
-        <p>Account: <?= $_SESSION['login_account']['user_name'] ?></p>
-        <input id="logout" name='logout' type="submit" value="Logout">
-    </form>
+    <!-- User is registering a new account -->
+    <?php elseif(!empty($_POST['register']) || !empty($_POST['create-account'])): ?>
+        <form id="loginModule_loggedOut" method='post' action='#'>
+            <?php if ($error['type'] !== "none"): ?>
+                <p class="<?= ($error['type'] === "bad") ? "login_error":"login_success" ?>"><?=$error['message']?></p>
+            <?php endif ?>
+            <p>Register an Account</p>
+            <label for='username'>Username:</label>
+            <input id='username' name='username'><br> 
+            <label for='email'>Email Address:</label>
+            <input id='email' name='email'><br> 
+            <label for='password'>Password:</label>
+            <input id='password' type='password' name='password'><br> 
+            <label for='confirm_password'>Confirm Password:</label>
+            <input id='confirm_password' type='password' name='confirm_password'><br> 
+            <input id="create-account" name='create-account' type="submit" value="Create Account">
+        </form>
 
-<!-- User is registering a new account -->
-<?php elseif(!empty($_POST['register']) || !empty($_POST['create-account'])): ?>
-    <form id="loginModule_register" method='post' action='#'>
-        <p>Register an Account</p>
-        <label for='username'>Username:</label>
-        <input id='username' name='username'><br> 
-        <label for='email'>Email Address:</label>
-        <input id='email' name='email'><br> 
-        <label for='password'>Password:</label>
-        <input id='password' type='password' name='password'><br> 
-        <label for='confirm_password'>Confirm Password:</label>
-        <input id='confirm_password' type='password' name='confirm_password'><br> 
-        <input id="create-account" name='create-account' type="submit" value="Create Account">
-    </form>
+    <!-- User is a guest (not signed in) -->
+    <?php elseif($_SESSION['login_status'] === 'guest'): ?>
+        <form id="loginModule_loggedOut" method='post' action='#'>
+            <?php if ($error['type'] !== "none"): ?>
+                <p class="<?= ($error['type'] === "bad") ? "login_error":"login_success" ?>"><?=$error['message']?></p>
+            <?php endif ?>
+            <p>Login to Your Account</p>
+            <label for='username'>Username:</label>
+            <input id='username' name='username'><br>  
+            <label for='password'>Password:</label>
+            <input id='password' type ='password' name='password'><br> 
+            <div>
+                <input id="login" name='login' type="submit" value="Login">
+                <input id="register" name='register' type="submit" value="Register">
+            </div>
+        </form>
+    <?php endif ?>
 
-<!-- User is a guest (not signed in) -->
-<?php elseif($_SESSION['login_status'] === 'guest'): ?>
-    <form id="loginModule_guest" method='post' action='#'>
-        <p>Login to Your Account</p>
-        <label for='username'>Username:</label>
-        <input id='username' name='username'><br>  
-        <label for='password'>Password:</label>
-        <input id='password' type ='password' name='password'><br> 
-        <div>
-            <input id="login" name='login' type="submit" value="Login">
-            <input id="register" name='register' type="submit" value="Register">
-        </div>
-    </form>
-<?php endif ?>
+</div>
