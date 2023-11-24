@@ -5,25 +5,26 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 3rd
-    Updated: 2023 November 5th
+    Updated: 2023 November 23rd
 
 ****************/
 
-// Session already started on index (and every other page)
-// session_start();
+
 if (!defined('USER_TABLE_NAME'))
     define('USER_TABLE_NAME', 'users');
+
 
 // Start a session and initalize session variables
 if (empty($_SESSION['login_status']))
 {
-    
     $_SESSION['login_status'] = 'guest';
     $_SESSION['login_account'] = '';
 }
 
+
 // The error that should be displayed, if any
 $error = array("type"=>"none", "message"=>"none");
+
 
 // Check for POSTed info
 if ($_POST)
@@ -56,6 +57,7 @@ if ($_POST)
                         $error = array("type"=>"bad", "message"=>"Password Hashing Failed");
                     else
                     {
+                        // Count the accounts with that username
                         $login_query = 'SELECT count(*) FROM ' . USER_TABLE_NAME . ' WHERE user_name LIKE :username';
                         $login_statement = $db->prepare($login_query);
                         $login_statement->bindValue(':username', $username);
@@ -74,6 +76,8 @@ if ($_POST)
                             $login_statement->bindValue(':password_hash', $password_hash);
                             $login_statement->execute();
                             $error = array("type"=>"good", "message"=>"Account Created");
+
+                            // Ensures the login page is displayed instead
                             $_POST['create-account'] = null;
                         }
                     }
@@ -88,9 +92,10 @@ if ($_POST)
             $error = array("type"=>"bad", "message"=>"You must enter a Username and Password");
         else
         {
-            // Sanatize
+            // Sanitize
             $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
+            // Find the account in the database
             $login_query = 'SELECT * FROM ' . USER_TABLE_NAME . ' WHERE user_name LIKE :username LIMIT 1';
             $login_statement = $db->prepare($login_query);
             $login_statement->bindValue(':username', $username);
@@ -116,15 +121,15 @@ if ($_POST)
         $_SESSION['login_account'] = '';
         
         header("Location: index.php");
-        // echo '<p class="login-error">You have been logged out</p>';
     }
 }
 ?>
 
+
 <div id="login_module">
 
     <!-- User is logged in -->
-    <?php if($_SESSION['login_status'] === 'loggedin'): ?>
+    <?php if(isLoggedIn()): ?>
         <?php if ($error['type'] !== "none"): ?>
             <p class="<?= ($error['type'] === "bad") ? "login_error":"login_success" ?>"><?=$error['message']?></p>
         <?php endif ?>
@@ -133,7 +138,7 @@ if ($_POST)
             <input id="logout" name='logout' type="submit" value="Logout">
         </form>
 
-    <!-- User is registering a new account -->
+    <!-- User is registering a new account (possibly failed previous registration) -->
     <?php elseif(!empty($_POST['register']) || !empty($_POST['create-account'])): ?>
         <form id="loginModule_loggedOut" method='post' action='#'>
             <?php if ($error['type'] !== "none"): ?>
@@ -152,7 +157,7 @@ if ($_POST)
         </form>
 
     <!-- User is a guest (not signed in) -->
-    <?php elseif($_SESSION['login_status'] === 'guest'): ?>
+    <?php else: ?>
         <form id="loginModule_loggedOut" method='post' action='#'>
             <?php if ($error['type'] !== "none"): ?>
                 <p class="<?= ($error['type'] === "bad") ? "login_error":"login_success" ?>"><?=$error['message']?></p>

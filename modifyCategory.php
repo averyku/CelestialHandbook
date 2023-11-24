@@ -5,23 +5,25 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 20th
-    Updated: 2023 November 20th
+    Updated: 2023 November 24th
 
 ****************/
 
 session_start();
 require('connect.php');
+require('globalFunctions.php');
 define('CATEGORY_TABLE', 'object_categories');
 define('CAT_TO_OBJ_TABLE', 'category_to_object');
-
 $new = true;
 
+
 // Redirect if not logged in or unauthorized
-if($_SESSION['login_status'] !== 'loggedin' || !$_SESSION['login_account']['user_is_admin'])
+if(!isAdmin())
 {
     header("Location: index.php");
     die();
 }
+
 
 // Redirect the user to this page, but without any GET/POST data (to create a new object)
 function redirect()
@@ -29,6 +31,7 @@ function redirect()
     header("Location: modifyCategory.php");
     die();
 }
+
 
 // Loads category information from DB
 function getCategoryInfo($database, $id)
@@ -40,6 +43,7 @@ function getCategoryInfo($database, $id)
 
     return $statement->fetch();
 }
+
 
 // Delete the object from the database
 function deleteCategory($database)
@@ -56,6 +60,7 @@ function deleteCategory($database)
     $statement->bindValue(':id', $_GET['id']);
     $statement->execute();
 }
+
 
 // Edit the category in the database
 function editCategory($database)
@@ -77,6 +82,7 @@ function editCategory($database)
     $statement->execute();
 }
 
+
 // Add the category to the database
 function createCategory($database)
 {
@@ -97,6 +103,7 @@ function createCategory($database)
     $statement->bindValue(':category_name', $category_name);
     $statement->execute();
 }
+
 
 // Determine what the page should do.
 if($_GET)
@@ -152,7 +159,7 @@ elseif($_POST)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Modify Category</title>
+    <title><?= $new ? "Create New Category":"Edit Category" ?></title>
 </head>
 <body>
 
@@ -161,7 +168,7 @@ elseif($_POST)
 
     <main id="modify">
         <!-- Create / Edit Category Form -->
-        <h2> <?= $new ? "Create New Category":"Edit Category" ?></h2>
+        <h2><?= $new ? "Create New Category":"Edit Category" ?></h2>
         <form method='post' action='modifyCategory.php'>
             <input type="hidden" name="id" value=<?= $new ? 'new' : $category['category_id'] ?>>
             <label for='name'>Name:</label>
@@ -169,5 +176,8 @@ elseif($_POST)
             <input id="update" name='update' type="submit" value="<?= $new ? 'Create' : 'Update' ?>">
         </form>
     </main>
+
+    <!-- Footer -->
+    <?php require('footerModule.php'); ?>
 </body>
 </html>

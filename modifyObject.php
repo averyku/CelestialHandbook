@@ -5,7 +5,7 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 18th
-    Updated: 2023 November 21st
+    Updated: 2023 November 24th
 
 ****************/
 
@@ -17,6 +17,7 @@ require $_SERVER['DOCUMENT_ROOT'] . '/Library_ImageResize/lib/ImageResizeExcepti
 use \Gumlet\ImageResize;
 
 require('connect.php');
+require('globalFunctions.php');
 define('OBJECT_TABLE_NAME', 'celestial_objects');
 define('CAT_TO_OBJ_TABLE', 'category_to_object');
 define('ALLOWED_IMAGE_MIMES', ['image/jpeg', 'image/png', 'image/gif']);
@@ -27,7 +28,7 @@ $new = true;
 
 
 // Redirect if not logged in or unauthorized
-if($_SESSION['login_status'] !== 'loggedin' || !$_SESSION['login_account']['user_is_admin'])
+if(!isAdmin())
 {
     header("Location: index.php");
     die();
@@ -42,10 +43,9 @@ function redirect()
 }
 
 
-// Processes the image, upload it to the server, and save path to database
+// Resize the image, upload it to the server, and save path to database
 function uploadImage($image)
 {
-    echo "Starting Upload";
     $image_new = new ImageResize($image['tmp_name']);
     $image_new->resizeToWidth(IMAGE_WIDTH);
     $url_new = 
@@ -72,14 +72,17 @@ function getFilePath($original_filename, $fullUrl)
 }
 
 
-// Delete an object's image
+// Delete an object's image from the server
 function deleteObjectImage($database, $object_id)
 {
+    // Get a link to the object's image
     $query = 'SELECT object_media FROM ' . OBJECT_TABLE_NAME . ' WHERE object_id=:object_id LIMIT 1';
     $statement = $database->prepare($query);
     $statement->bindValue(':object_id', $object_id);
     $statement->execute();
     $object = $statement->fetch();
+
+    // Delete file from the server
     unlink($object['object_media']);
 }
 
@@ -118,6 +121,7 @@ function deleteObject($database)
     header("Location: index.php#main");
     die();
 }
+
 
 // Edit the object in the database
 function editObject($database)
@@ -170,7 +174,7 @@ function editObject($database)
     if (!filter_input(INPUT_POST, 'distance', FILTER_VALIDATE_FLOAT))
         redirect();
 
-    // Set double / floats
+    // Set doubles / floats
     $object_mass_kg = $_POST['mass'];
     $object_radius = $_POST['radius'];
     $object_distance = $_POST['distance'];
@@ -281,7 +285,7 @@ function createObject($database)
     if (!filter_input(INPUT_POST, 'distance', FILTER_VALIDATE_FLOAT))
         redirect();
 
-    // Set double / floats
+    // Set doubles / floats
     $object_mass_kg = $_POST['mass'];
     $object_radius = $_POST['radius'];
     $object_distance = $_POST['distance'];
@@ -387,7 +391,7 @@ elseif($_POST)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Manage Users</title>
+    <title><?= $new ? "Create New Object":"Edit Object" ?></title>
 </head>
 <body>
 
@@ -397,7 +401,7 @@ elseif($_POST)
     <main id="modify">
 
         <!-- Create / Edit Object Form -->
-        <h2> <?= $new ? "Create New Object":"Edit Object" ?></h2>
+        <h2><?= $new ? "Create New Object":"Edit Object" ?></h2>
         <form method='post' action='modifyObject.php' enctype="multipart/form-data">
             <input type="hidden" name="id" value=<?= $new ? 'new' : $object['object_id'] ?>>
             <label for='name'>Name:</label>
@@ -446,5 +450,9 @@ elseif($_POST)
             <input id="update" name='update' type="submit" value="<?= $new ? 'Create' : 'Update' ?>">
         </form>
     </main>
+
+    <!-- Footer -->
+    <?php require('footerModule.php'); ?>
+
 </body>
 </html>

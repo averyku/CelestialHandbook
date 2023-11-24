@@ -5,19 +5,20 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 23rd
-    Updated: 2023 November 23rd
+    Updated: 2023 November 24th
 
 ****************/
 
 
 session_start();
 require('connect.php');
+require('globalFunctions.php');
 define('OBJECT_TABLE_NAME', 'celestial_objects');
 define('COLUMN_LOOKUP', array("Name"=>"object_name", "Mass"=>"object_mass_kg", "Location"=>"object_location"));
 
 
 // Redirect if user not logged in
-if($_SESSION['login_status'] !== 'loggedin')
+if(!isLoggedIn())
 {
     header("Location: index.php");
     die();
@@ -44,7 +45,7 @@ $_SESSION['sort']['direction'] = flipDirection(flipDirection($_SESSION['sort']['
     
 
 // Select all objects sorted appropriately 
-$query = 'SELECT '.implode(", ",COLUMN_LOOKUP).' FROM '.OBJECT_TABLE_NAME.' ORDER BY '.COLUMN_LOOKUP[$_SESSION['sort']["column"]].' '.$_SESSION['sort']["direction"];
+$query = 'SELECT object_id, '.implode(", ",COLUMN_LOOKUP).' FROM '.OBJECT_TABLE_NAME.' ORDER BY '.COLUMN_LOOKUP[$_SESSION['sort']["column"]].' '.$_SESSION['sort']["direction"];
 $statement = $db->prepare($query);
 $statement->execute();
 
@@ -58,20 +59,6 @@ function flipDirection($direction)
         return "ASC";
     else
         return "ASC";
-}
-
-
-// Formats a double/float to be more human readable
-function formatDouble($value)
-{
-    if (strstr(strval($value),"E+"))
-        return str_replace("E+"," x 10<sup>",strval($value))."</sup>";
-    if (strstr(strval($value),"E-"))
-        return str_replace("E-"," x 10<sup>-",strval($value))."</sup>";
-    if ($value >= 1000)
-        return number_format($value,0,".",",");
-
-    return $value;
 }
 ?>
 
@@ -99,10 +86,10 @@ function formatDouble($value)
                 <?php foreach (COLUMN_LOOKUP as $key => $value): ?>
                     <th>
                         <!-- Each header has a link with GET info that will update the sorting appropriately -->
-                        <a href='sortedObjects.php?sortBy=<?=$key?>&sortDirection=<?=($key === $_SESSION['sort']['column']) ? flipDirection($_SESSION['sort']['direction']) : $_SESSION['sort']['direction'] ?>'>
+                        <a href='sortedObjects.php?sortBy=<?=$key?>&sortDirection=<?=($key === $_SESSION['sort']['column']) ? flipDirection($_SESSION['sort']['direction']) : $_SESSION['sort']['direction'] ?>#main'>
                             <?=$key?>
                             <?php if ($key === $_SESSION['sort']['column']): ?>
-                                <?= ($_SESSION['sort']['direction'] === "ASC") ? "&#9650":"&#9660" ?>
+                                <?= ($_SESSION['sort']['direction'] === "ASC") ? "&#9650;":"&#9660;" ?>
                             <?php endif ?>
                         </a>
                     </th>
@@ -124,6 +111,8 @@ function formatDouble($value)
         </table>
     </main>
     
-    <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
+    <!-- Footer -->
+    <?php require('footerModule.php'); ?>
+
 </body>
 </html>

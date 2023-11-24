@@ -5,17 +5,19 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 4th
-    Updated: 2023 November 11th
+    Updated: 2023 November 24th
 
 ****************/
 
 session_start();
 require('connect.php');
+require('globalFunctions.php');
 define('USER_TABLE_NAME', 'users');
 $new = true;
 
+
 // Redirect if not logged in or unauthorized
-if($_SESSION['login_status'] !== 'loggedin' || !$_SESSION['login_account']['user_is_admin'])
+if(!isAdmin())
 {
     header("Location: index.php");
     die();
@@ -163,6 +165,8 @@ function updateUser($db)
         $edit_statement->bindValue(':email', $email);
         $edit_statement->bindValue(':admin', $admin);
         $edit_statement->execute();
+
+        // Redirect and die when finished
         redirect();
     }
 
@@ -192,6 +196,8 @@ function updateUser($db)
     $edit_statement->bindValue(':password_hash', $password_hash);
     $edit_statement->bindValue(':admin', $admin);
     $edit_statement->execute();
+
+    // Redirect and die when finished
     redirect();
 }
 
@@ -245,7 +251,7 @@ elseif($_POST)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Manage Users</title>
+    <title>Edit User</title>
 </head>
 <body>
 
@@ -270,5 +276,8 @@ elseif($_POST)
             <input id="update" name='update' type="submit" value="<?= $new ? 'Create' : 'Update' ?>">
         </form>
     </div>
+
+    <!-- Footer -->
+    <?php require('footerModule.php'); ?>
 </body>
 </html>

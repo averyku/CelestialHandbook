@@ -5,12 +5,13 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 6th
-    Updated: 2023 November 21st
+    Updated: 2023 November 24th
 
 ****************/
 
 session_start();
 require('connect.php');
+require('globalFunctions.php');
 define('OBJECT_TABLE_NAME', 'celestial_objects');
 define('QUESTION_TABLE_NAME', 'questions');
 define('USER_TABLE_NAME', 'users');
@@ -25,15 +26,18 @@ function redirect()
     die();
 }
 
+
 // Redirect if no ID was included or ID was not a valid int
 if(!$_GET || empty($_GET['id']) || !filter_input(INPUT_GET,'id',FILTER_VALIDATE_INT))
     redirect();
+
 
 // Select the specified object
 $query = 'SELECT * FROM ' . OBJECT_TABLE_NAME . ' WHERE object_id LIKE :id';
 $statement = $db->prepare($query);
 $statement->bindValue(':id', $_GET['id']);
 $statement->execute();
+
 
 // Redirect if no rows or multiple rows of objects were found
 if ($statement->rowCount() < 1 || 1 > $statement->rowCount())
@@ -53,24 +57,11 @@ $category_statement->bindValue(':id', $_GET['id']);
 $category_statement->execute();
 
 // Select all of the categories if the user is an admin
-if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin'])
+if(isAdmin())
 {
     $all_category_query = 'SELECT * FROM ' . CATEGORY_TABLE . ' ORDER BY category_name ASC';
     $all_category_statement = $db->prepare($all_category_query);
     $all_category_statement->execute();
-}
-
-// Formats a double/float to be more human readable
-function formatDouble($value)
-{
-    if (strstr(strval($value),"E+"))
-        return str_replace("E+"," x 10<sup>",strval($value))."</sup>";
-    if (strstr(strval($value),"E-"))
-        return str_replace("E-"," x 10<sup>-",strval($value))."</sup>";
-    if ($value >= 1000)
-        return number_format($value,0,".",",");
-
-    return $value;
 }
 ?>
 
@@ -85,7 +76,7 @@ function formatDouble($value)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Celestial Handbook</title>
+    <title><?= $object['object_name'] ?></title>
 </head>
 <body>
 
@@ -109,21 +100,21 @@ function formatDouble($value)
             <?php while ($category = $category_statement->fetch()): ?>
                 <div class="category">
                     <?= $category['category_name'] ?>
-                    <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
+                    <?php if(isAdmin()): ?>
                         <!-- Remove The Category -->
                         <form method='post' action='manageCategories.php'>
-                            <input type="hidden" name="object_id" value="<?= $object['object_id'] ?>" ?>
-                            <input type="hidden" name="category_id" value="<?= $category['category_id'] ?>" ?>
-                            <input id="remove_category" name='remove_category' type="submit" value="X">
+                            <input type="hidden" name="object_id" value="<?= $object['object_id'] ?>">
+                            <input type="hidden" name="category_id" value="<?= $category['category_id'] ?>">
+                            <input class="remove_category" name='remove_category' type="submit" value="X">
                         </form>
                     <?php endif ?>
                 </div>
             <?php endwhile ?>
-            <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
+            <?php if(isAdmin()): ?>
                 <!-- Add New Category -->
                 <div class="category">
                     <form method='post' action='manageCategories.php'>
-                        <input type="hidden" name="object_id" value="<?= $object['object_id'] ?>" ?>
+                        <input type="hidden" name="object_id" value="<?= $object['object_id'] ?>">
                         <input id="add_category" name='add_category' type="submit" value="Add">
                         <select id="add_category_options" name="category_id">
                             <option value="invalid">-- Select a Category --</option>
@@ -170,15 +161,14 @@ function formatDouble($value)
 
         <!-- Picture (if applicable) -->
         <?php if(!empty($object['object_media'])): ?>
-            <p><b>link:</b> <?= $object['object_media'] ?></p>
-            <img src='<?= $object['object_media'] ?>' />
+            <p><b>link:</b> <?= str_replace('\\', '/', $object['object_media']) ?></p>
+            <img src='<?= str_replace('\\', '/', $object['object_media']) ?>' alt="An image of <?= $object['object_name'] ?>">
             <br><br><br>
         <?php endif ?> 
 
-        <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
+        <?php if(isAdmin()): ?>
             <div id="modify_post_buttons">
                 <a href="modifyObject.php?edit=true&id=<?= $object['object_id'] ?>">Edit Object</a>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <a href="modifyObject.php?delete=true&id=<?= $object['object_id'] ?>">Delete Object</a>
             </div>
         <?php endif ?>
@@ -189,7 +179,8 @@ function formatDouble($value)
         <?php require('questionModule.php'); ?>
     </div>
 
-    <br><br><br>
-    <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
+    <!-- Footer -->
+    <?php require('footerModule.php'); ?>
+    
 </body>
 </html>

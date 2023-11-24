@@ -5,12 +5,13 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 3rd
-    Updated: 2023 November 23rd
+    Updated: 2023 November 24th
 
 ****************/
 
 session_start();
 require('connect.php');
+require('globalFunctions.php');
 define('OBJECT_TABLE_NAME', 'celestial_objects');
 
 
@@ -28,7 +29,7 @@ $statement->execute();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-    <title>Celestial Handbook</title>
+    <title>All Objects</title>
 </head>
 <body>
 
@@ -40,21 +41,19 @@ $statement->execute();
         <h2>All Objects</h2>
         <ul id="main_list">
             <!-- Admins have the ability to create new object -->
-            <?php if($_SESSION['login_status'] === 'loggedin' && $_SESSION['login_account']['user_is_admin']): ?>
-                <a href="modifyObject.php">
-                    <li id="new_object_li">New Object</li>
-                </a>
+            <?php if(isAdmin()): ?>
+                <li id="new_object_li" onclick="window.location.href = 'modifyObject.php'">New Object</li>
             <?php endif ?>
 
             <!-- Display a link to each object -->
             <?php while ($row = $statement->fetch()): ?>
-                <a href='fullObjectPage.php?id=<?= $row['object_id'] ?>#celestial_object'>
-                    <li><?= $row['object_name'] ?></li>
-                </a>
+                    <li onclick="window.location.href = 'fullObjectPage.php?id=<?= $row['object_id'] ?>#celestial_object'"><?= $row['object_name'] ?></li>
             <?php endwhile ?>
         </ul>
     </main>
     
-    <footer><p>Copywrong 2023 - No Rights Reserved</p></footer>
+    <!-- Footer -->
+    <?php require('footerModule.php'); ?>
+
 </body>
 </html>

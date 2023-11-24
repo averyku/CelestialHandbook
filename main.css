@@ -58,7 +58,8 @@ main h3
 }
 footer
 {
-    padding-bottom: 10px;
+    padding: 20px;
+    margin-top: 30px;
 }
 input, textarea
 {
@@ -86,6 +87,7 @@ a:hover
 
 
 
+
 /* HEADER */
 header 
 {
@@ -94,6 +96,7 @@ header
     align-items: center;
     text-align: center;
     width: 99%;
+    margin-top: 25px;
     margin-bottom: 30px;
 }
 header h1 a
@@ -112,6 +115,7 @@ nav ul
     display: flex;
     flex-direction: row;
     border: white solid 1px;
+    border-radius: 10px;
 }
 nav li
 {
@@ -276,7 +280,7 @@ div#object_categories
     background-color: green;
     border: black solid 2px;
 }
-#remove_category
+input.remove_category
 {
     padding: 0px;
     margin: 0px;
@@ -293,8 +297,6 @@ div#object_categories
 p#object_description
 {
     width: 70%;
-    /* padding-left: 50px;
-    padding-right: 50px; */
 }
 #modify_post_buttons :first-child
 {
@@ -303,6 +305,7 @@ p#object_description
     font-weight: bold;
     padding: 8px;
     border-radius: 10px;
+    margin-right: 20px;
 }
 #modify_post_buttons :last-child
 {
@@ -311,14 +314,7 @@ p#object_description
     font-weight: bold;
     padding: 8px;
     border-radius: 10px;
-}
-img
-{
-    /* width: 500px;
-    height: 300px; */
-    /* width: 360px;
-    height: 240px;
-    object-fit: contain; */
+    margin-left: 20px;
 }
 
 
@@ -400,6 +396,16 @@ div#question_module h3
 
     text-align:center;
 }
+.question_error
+{
+    font-weight: bold;
+    background-color: darkred;
+    text-align: center;
+    width: 50%;
+    margin: auto;
+    padding: 5px;
+    margin-bottom: 5px;
+}
 
 
 
@@ -462,8 +468,8 @@ li#delete_category_li
 /* ADMIN - MANAGE / NEW USERS */
 div#admin_panel
 {
-    padding: 50px;
     width: 100%;
+    margin-top:20px;
 }
 div#admin_panel table
 {

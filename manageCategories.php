@@ -5,12 +5,13 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 17th
-    Updated: 2023 November 17th
+    Updated: 2023 November 24th
 
 ****************/
 
 session_start();
 require('connect.php');
+require('globalFunctions.php');
 define('CAT_TO_OBJ_TABLE', 'category_to_object');  
 
 // Redirect the user to index
@@ -20,13 +21,13 @@ function redirect()
     die();
 }
 
-// Redirect if not logged in or unauthorized
-if($_SESSION['login_status'] !== 'loggedin' || !$_SESSION['login_account']['user_is_admin'])
+
+// Redirect if needed
+if(!isAdmin())
     redirect();
 
 if(!$_POST)
     redirect();
-
 
 
 // Remove Category from an Object
@@ -61,9 +62,6 @@ elseif(!empty($_POST['add_category']))
         redirect();
     else
     {
-        echo "<br>".$_POST['category_id']."<br>";
-        echo "<br>".$_POST['object_id']."<br>";
-
         // Search for an existing record
         $query = "SELECT * FROM ".CAT_TO_OBJ_TABLE." WHERE category_id=:category_id AND object_id=:object_id";
         $statement = $db->prepare($query);
