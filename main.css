@@ -2,7 +2,7 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 4th
-    Updated: 2023 November 20th
+    Updated: 2023 November 25th
 */
 
 @font-face 
@@ -134,6 +134,29 @@ nav li:last-of-type
 nav li:hover
 {
     background-color: rgb(70,70,70);
+}
+form#search_bar
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+    width: 70%;
+    margin: auto;
+    margin-top: 10px;
+}
+input#search_query
+{
+    margin-right: 10px;
+    padding:5px;
+    border-radius: 10px;
+    font-size: smaller;
+}
+input#search_submit
+{
+    padding: 5px;
+    border-radius: 10px;
+    font-size: smaller;
 }
 
 
@@ -601,7 +624,7 @@ table#sorted_object_table td
 {
     padding: 5px;
     border-bottom: rgb(70,70,70) solid 1px;
-    text-wrap: nowrap;
+    /* text-wrap: nowrap; */
 }
 table#sorted_object_table tr:last-of-type td
 {

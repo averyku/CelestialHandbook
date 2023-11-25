@@ -5,7 +5,7 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 24th
-    Updated: 2023 November 24th
+    Updated: 2023 November 25th
 
 ****************/
 
@@ -38,4 +38,14 @@ function isAdmin()
 }
 
 
+// Returns the opposite direction of the direction provided
+function flipOrderDirection($direction)
+{
+    if($direction === "ASC")
+        return "DESC";
+    elseif($direction === "DESC")
+        return "ASC";
+    else
+        return "ASC";
+}
 ?>

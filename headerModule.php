@@ -4,7 +4,7 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 23rd
-    Updated: 2023 November 24th
+    Updated: 2023 November 25th
 
 ****************/
 ?>
@@ -31,6 +31,10 @@
                 <li onclick="window.location.href = 'manageUsers.php'">Manage Users</li>
             <?php endif ?>
         </ul>
+        <form method='get' id="search_bar" action='searchPage.php'>
+            <input id='search_query' name='search' type="text" value=''>
+            <input id="search_submit" type="submit" value="Search &#x1F50D;">
+        </form>
     </nav>
 
 </header>
