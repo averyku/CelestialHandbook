@@ -49,6 +49,7 @@ $user_statement->execute();
         <table>
             <tr>
                 <th></th>
+                <th></th>
                 <th>ID</th>
                 <th>Admin</th>
                 <th>Username</th>
@@ -59,9 +60,13 @@ $user_statement->execute();
                     <td>
                         <!-- Do not provide option for a user to edit/delete their own account -->
                         <?php if($row['user_id'] === $_SESSION['login_account']['user_id']): ?>
-                            Your Account
+                            </td>
+                            <td>
                         <?php else: ?>
-                        <a href='editUser.php?id=<?= $row['user_id'] ?>'>Edit</a> / <a href='editUser.php?id=<?= $row['user_id'] ?>&delete=true'>Delete</a>
+                                <a href='editUser.php?id=<?= $row['user_id'] ?>'><b>Edit</b></a>
+                            </td>
+                            <td>
+                                <a href='editUser.php?id=<?= $row['user_id'] ?>&delete=true'><b>Delete</b></a>
                         <?php endif ?>
                     </td>
                     <td><?= $row['user_id'] ?></td>

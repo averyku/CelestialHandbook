@@ -79,7 +79,7 @@ b
 {
     font-weight: bold;
 }
-a:hover
+a:hover, a b:hover
 {
     color:lightblue;
 }
@@ -473,21 +473,32 @@ div#admin_panel
 }
 div#admin_panel table
 {
+    margin: auto;
     margin-top: 20px;
-    width: 100%;
+    width: 80%;
+    border: white solid 1px;
 }
-div#admin_panel td a
+div#admin_panel td
 {
-    text-decoration: underline;
-    text-underline-offset: 3px;
+    padding: 5px;
+    border-bottom: rgb(70,70,70) solid 1px;
+    word-wrap: break-word;
 }
 div#admin_panel tr:first-of-type
 {
     background-color: rgb(70,70,70);
 }
-div#admin_panel tr:first-of-type th:first-of-type
+div#admin_panel tr:first-of-type th:first-of-type, th:nth-of-type(2)
 {
     background-color: black;
+}
+div#admin_panel tr td:first-of-type, td:nth-of-type(2)
+{
+    width: 0;
+}
+div#admin_panel tr:last-of-type td
+{
+    border-bottom: none;
 }
 div#admin_panel h2
 {
@@ -507,7 +518,7 @@ div#admin_panel form
     padding: 20px;
     border: white solid 1px;
 }
-div#admin_panel form input[type="password"], input[type="text"]
+div#admin_panel form input[type="password"], input[type="text"], input[type="email"]
 {
     width: 80%;
 }
@@ -590,5 +601,9 @@ table#sorted_object_table td
 {
     padding: 5px;
     border-bottom: rgb(70,70,70) solid 1px;
+    text-wrap: nowrap;
 }
-
+table#sorted_object_table tr:last-of-type td
+{
+    border-bottom: none;
+}

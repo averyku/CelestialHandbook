@@ -148,7 +148,7 @@ if ($_POST)
             <label for='username'>Username:</label>
             <input id='username' name='username'><br> 
             <label for='email'>Email Address:</label>
-            <input id='email' name='email'><br> 
+            <input id='email' type="email" name='email'><br> 
             <label for='password'>Password:</label>
             <input id='password' type='password' name='password'><br> 
             <label for='confirm_password'>Confirm Password:</label>

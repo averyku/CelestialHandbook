@@ -266,7 +266,7 @@ elseif($_POST)
             <label for='username'>Username:</label>
             <input id='username' name='username' type="text" value='<?= $new ? '' : $user['user_name'] ?>'><br> 
             <label for='email'>Email Address:</label>
-            <input id='email' name='email' type="text" value='<?= $new ? '' : $user['user_email'] ?>'><br> 
+            <input id='email' name='email' type="email" value='<?= $new ? '' : $user['user_email'] ?>'><br> 
             <label for='admin'>Admin Privileges:</label>
             <input id='admin' type='checkbox' name='admin' <?= $new ? '' : ($user['user_is_admin'] ? "Checked":"")?>><br> 
             <label for='password'>Password:</label>
