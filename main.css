@@ -70,6 +70,10 @@ input, textarea
     border-style: inset;
     text-align: center;
 }
+input[type="text"]
+{
+    width: 80%;
+}
 input[type="submit"]
 {
     padding:8px;
@@ -127,9 +131,15 @@ nav li
     padding: 5px;
     border-right: white solid 1px;
 }
+nav li:first-of-type
+{
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+}
 nav li:last-of-type
 {
     border:none;
+    border-radius: 10px;
 }
 nav li:hover
 {
@@ -194,6 +204,7 @@ form#loginModule_loggedOut
 
     padding: 10px;
     border: white solid 1px;
+    border-radius: 10px;
     width: 150%
 }
 form#loginModule_loggedOut p:last-of-type
@@ -541,7 +552,7 @@ div#admin_panel form
     padding: 20px;
     border: white solid 1px;
 }
-div#admin_panel form input[type="password"], input[type="text"], input[type="email"]
+div#admin_panel form input[type="password"], div#admin_panel form input[type="email"]
 {
     width: 80%;
 }
