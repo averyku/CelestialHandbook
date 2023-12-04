@@ -526,7 +526,7 @@ div#admin_panel tr:first-of-type th:first-of-type, th:nth-of-type(2)
 {
     background-color: black;
 }
-div#admin_panel tr td:first-of-type, td:nth-of-type(2)
+div#admin_panel tr td:first-of-type, div#admin_panel tr td:nth-of-type(2)
 {
     width: 0;
 }
