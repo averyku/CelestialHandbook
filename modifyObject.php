@@ -5,7 +5,7 @@
     Name: Avery Kuboth
     Description: WEBD-2013 Project - Celestial Handbook
     Date: 2023 November 18th
-    Updated: 2023 November 24th
+    Updated: 2023 December 4th
 
 ****************/
 
@@ -301,6 +301,8 @@ function createObject($database)
         // Upload the new image and set the object's path
         $object_media = uploadImage($_FILES['image']);
     }
+    elseif(!in_array($_FILES['image']['type'], ALLOWED_IMAGE_MIMES))
+        redirect();
     
     // Create new entry using the data
     $query = "INSERT INTO ".OBJECT_TABLE_NAME." (

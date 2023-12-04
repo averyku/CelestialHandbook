@@ -140,8 +140,8 @@ if( $_GET
             <?php if(isAdmin()): ?>
                 <form method='post' action='#'>
                     <input type="hidden" name="question_id" value="<?= $question['question_id'] ?>">
-                    <input id="delete" name='delete' type="submit" value="Delete">
-                    <input id="edit_answer" name='edit_answer' type="submit" value="Answer">
+                    <input name='delete' type="submit" value="Delete">
+                    <input name='edit_answer' type="submit" value="Answer">
                 </form>
             <?php endif ?>    
         </section>
