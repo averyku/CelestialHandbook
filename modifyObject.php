@@ -186,15 +186,19 @@ function editObject($database)
     // Add an image
     if (!empty($_FILES['image']) 
         && $_FILES['image']['error'] === 0 
-        && empty($_POST['delete_image'])
-        && in_array($_FILES['image']['type'], ALLOWED_IMAGE_MIMES))
+        && empty($_POST['delete_image']))
     {
-        // Delete any existing image
-        deleteObjectImage($database, $_POST['id']);
+        if (in_array($_FILES['image']['type'], ALLOWED_IMAGE_MIMES))
+        {
+            // Delete any existing image
+            deleteObjectImage($database, $_POST['id']);
 
-        // Upload the new image and set the object's path
-        $object_media = uploadImage($_FILES['image']);
-    }
+            // Upload the new image and set the object's path
+            $object_media = uploadImage($_FILES['image']);
+        }
+        else
+            redirect(); // Redirect if image was uploaded, but invalid type
+    }   
 
     // Update the object in the database
     $query = "UPDATE ".OBJECT_TABLE_NAME." SET 
@@ -292,17 +296,19 @@ function createObject($database)
 
     // Add an image
     if (!empty($_FILES['image']) 
-    && $_FILES['image']['error'] === 0 
-    && in_array($_FILES['image']['type'], ALLOWED_IMAGE_MIMES))
+    && $_FILES['image']['error'] === 0)
     {
-        // Delete any existing image
-        deleteObjectImage($database, $_POST['id']);
+        if (in_array($_FILES['image']['type'], ALLOWED_IMAGE_MIMES))
+        {
+            // Delete any existing image
+            deleteObjectImage($database, $_POST['id']);
 
-        // Upload the new image and set the object's path
-        $object_media = uploadImage($_FILES['image']);
+            // Upload the new image and set the object's path
+            $object_media = uploadImage($_FILES['image']);
+        }
+        else
+            redirect(); // Redirect if image was uploaded, but invalid type
     }
-    elseif(!in_array($_FILES['image']['type'], ALLOWED_IMAGE_MIMES))
-        redirect();
     
     // Create new entry using the data
     $query = "INSERT INTO ".OBJECT_TABLE_NAME." (
